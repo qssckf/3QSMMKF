@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="context" class="nc.vo.uif2.LoginContext"></bean>
+	
+	<bean id="boAdatorFactory" class="nc.vo.bd.meta.BDObjectAdpaterFactory" />
+	
+	<bean id="QueryTemplateContainer" class="nc.ui.uif2.editor.QueryTemplateContainer">
+    	<property name="context" ref="context"></property>
+    </bean>
+		
+	<bean id="templateContainer" class="nc.ui.uif2.editor.TemplateContainer" init-method="load">
+		<property name="context" ref="context" />
+		<property name="nodeKeies">
+			<list>
+				<value>planlist</value>
+				<value>plandetaillist</value>
+				<value>plandetailmmlist</value>
+				<value>machinelist</value>
+				<value>machinemmorder</value>
+				<value>Intoproddetaillist</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userdefitemContainer" class="nc.ui.uif2.userdefitem.UserDefItemContainer">
+		<property name="context" ref="context" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="mdfullname" value="so.MmPlanBill" />
+				</bean>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="mdfullname" value="so.PlanProduceDetailVO" />
+				</bean>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="mdfullname" value="so.rd_pd" />
+				</bean>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="rulecode" value="materialassistant" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="remoteCallCombinatorCaller" class="nc.ui.uif2.editor.UIF2RemoteCallCombinatorCaller">
+	 	<property name="remoteCallers">
+	 		<list>
+	 			<ref bean="QueryTemplateContainer" />
+	 			<ref bean="templateContainer" />
+	 			<ref bean="userdefitemContainer"/>
+	 		</list>
+	 	</property>
+	</bean>
+	 
+	<bean id="modelDataManager" class="nc.ui.so.qs.mmplanbill.model.PlanBillDataManager">
+	    <property name="model" ref="manageAppModel"/>
+	    <property name="paginationModel" ref="paginationModel" />
+	    <property name="service" ref="service"/>
+	</bean>
+	 
+	<bean id="service" class="nc.ui.so.qs.mmplanbill.service.PlanBillAppModelService">
+	</bean>
+	
+	<bean id="manageAppModel" class="nc.ui.so.qs.mmplanbill.model.ManageAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+	</bean>
+	
+	
+	
+	<bean id="PlanDetaiManageAppModel" class="nc.ui.so.qs.mmplanbill.model.PlanDetailManageAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+	</bean>
+	
+	<bean id="PlanDetailMManageAppModel" class="nc.ui.so.qs.mmplanbill.model.PlanDetailMManageAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="service" ref="rdservice"/>
+		<property name="supportLazilyLoad" value="false"></property>
+	</bean>
+	
+	<bean id="rdservice" class="nc.ui.so.qs.mmplanbill.readyplan.service.RdMmService">
+	</bean>
+
+	<bean id="MachineManageAppModel" class="nc.ui.so.qs.mmplanbill.model.MachineManageAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+	</bean>
+	
+	<bean id="MmOrderManageAppModel" class="nc.ui.so.qs.mmplanbill.model.MmOrderManageAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+	</bean>
+	
+	<bean id="IpManageAppModel" class="nc.ui.so.qs.mmplanbill.model.IntoProdManageAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+	</bean>
+
+	
+
+	
+	<bean id="container" class="nc.ui.uif2.TangramContainer" init-method="initUI">
+		<property name="model" ref="manageAppModel" />
+		<property name="tangramLayoutRoot">
+			<ref bean="PlanBillArea" />
+		</property>
+		<property name="actions">
+			<list>
+				<ref bean="QueryActionGroup" />
+				<ref bean="separatorAction" />
+				<ref bean="PlanCancelAction" />
+				<ref bean="separatorAction" />
+				<ref bean="printMenuAction"/>
+			</list>
+		</property>
+		<property name="editActions">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PlanBillArea" class="nc.ui.uif2.tangramlayout.node.VSNode">
+		<property name="up">
+			<ref bean="UpPlanArea" />
+		</property>
+		<property name="down">
+			<ref bean="DownPlanArea" />
+		</property>
+		<property name="dividerLocation" value="0.70f" />
+	</bean>
+	
+	
+	<bean id="UpPlanArea" class="nc.ui.uif2.tangramlayout.node.VSNode">
+		<property name="up">
+			<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+				<property name="component" ref="PlanListView" />
+			</bean>
+		</property>
+		<property name="down">
+			<ref bean="PlanDetail" />
+		</property>
+		<property name="dividerLocation" value="0.45f" />
+	</bean>
+	
+	
+	
+	<bean id="PlanDetail" class="nc.ui.uif2.tangramlayout.node.HSNode">
+		<property name="left">
+			<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+				<property name="component" ref="PlanDetailListView" />
+			</bean>
+		</property>
+		<property name="right">
+			<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+				<property name="component" ref="PlanDetailMmListView" />
+			</bean>
+		</property>
+		<property name="dividerLocation">
+			<value>0.55f</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="DownPlanArea" class="nc.ui.uif2.tangramlayout.node.CNode">
+		<property name="component" ref="IntoProdDetailListView" />
+	</bean>
+	
+	<bean id="PlanListView" class="nc.ui.so.qs.mmplanbill.view.PlanListView" init-method="initUI">
+		<property name="model" ref="manageAppModel" />
+		<property name="PlanDetailModel" ref="PlanDetaiManageAppModel" />
+		<property name="PlanDetailMModel" ref="PlanDetailMManageAppModel" />
+		<property name="IpModel" ref="IpManageAppModel"></property>
+		<property name="multiSelectionEnable" value="false" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="nodekey" value="planlist" />
+		<property name="north" ref="listInfoPnl"></property>
+		<property name="south" ref="paginationBar" />
+		<property name="userdefitemListPreparator">
+			<bean name="userdefAndMarAsstListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+				<property name="billListDataPrepares">
+					<list>
+						<ref bean="userdefitemlistPreparator" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+		
+	<bean id="listInfoPnl" class="nc.ui.uif2.tangramlayout.CardLayoutToolbarPanel">
+		<property name="model" ref="manageAppModel" />
+	</bean>
+	
+	<bean id="paginationBar" class="nc.ui.uif2.components.pagination.PaginationBar" init-method="registeCallbak">
+		<property name="paginationModel" ref="paginationModel" />
+		<property name="context" ref="context" />
+	</bean>
+	
+	<bean id="paginationModel" class="nc.ui.uif2.components.pagination.PaginationModel" init-method="init" />
+	
+	<bean id="PlanDetailListView" class="nc.ui.so.qs.mmplanbill.view.PlanDetailListView" init-method="initUI">
+		<property name="model" ref="PlanDetaiManageAppModel" />
+		<property name="rdmodel" ref="PlanDetailMManageAppModel" />
+		<property name="IpModel" ref="IpManageAppModel"></property>
+		<property name="multiSelectionEnable" value="false" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="north" ref="listInfoPnl1"></property>
+		<property name="nodekey" value="plandetaillist" />
+		<property name="userdefitemListPreparator">
+			<bean name="userdefAndMarAsstListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+				<property name="billListDataPrepares">
+					<list>
+						<ref bean="userdefitemlistPreparatorByPlanDetail" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	
+	<bean id="listInfoPnl1" class="nc.ui.uif2.tangramlayout.CardLayoutToolbarPanel">
+		<property name="model" ref="PlanDetaiManageAppModel" />
+		<property name="actions">
+	    	<list>
+	    		<ref bean="refreshAction" />
+<!--				<ref bean="queryhandAction" />-->
+	    	</list>
+	    </property>
+	</bean>
+	
+<!--	<bean id="queryhandAction" class="nc.ui.so.qs.mmplandetail.actions.QueryHandAction">
+		<property name="model" ref="PlanDetaiManageAppModel"></property>
+		<property name="list" ref="PlanDetailListView"></property>
+		<property name="userdefitemPreparator">
+			<bean name="userdefAndMarAsstCardPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillDataPrepare">
+				<property name="billDataPrepares">
+					<list>
+						<ref bean="userdefPreparatorByhand" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="logincontext" ref="context" />
+	</bean>-->
+	
+	
+	<bean name="userdefPreparatorByhand" class="nc.ui.uif2.editor.UserdefitemContainerPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.PlanProduceDetailVO" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="vbdef" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="refreshAction" class="nc.ui.so.qs.mmplandetail.actions.RefreshAction">
+		<property name="model" ref="PlanDetaiManageAppModel"></property>
+		<property name="fmodel" ref="manageAppModel"></property>
+	</bean>
+	
+	
+	
+	<bean id="PlanDetailMmListView" class="nc.ui.so.qs.mmplanbill.view.PlanDetailMmListView" init-method="initUI">
+		<property name="model" ref="PlanDetailMManageAppModel" />
+		<property name="rdmodel" ref="IpManageAppModel" />
+		<property name="multiSelectionEnable" value="true" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="north" ref="listInfoPnl2"></property>
+		<property name="nodekey" value="plandetailmmlist" />
+		<property name="userdefitemListPreparator">
+			<bean name="userdefAndMarAsstListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+				<property name="billListDataPrepares">
+					<list>
+						<ref bean="userdefitemlistPreparatorByRdpd" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+		
+	</bean>
+	
+	<bean id="listInfoPnl2" class="nc.ui.uif2.tangramlayout.CardLayoutToolbarPanel">
+		<property name="model" ref="PlanDetailMManageAppModel" />
+		<property name="actions">
+	    	<list>
+	    		<ref bean="BrefreshAction" />
+	    		<ref bean="RdDeleteAction" />
+	    		<ref bean="RdMakeRPMOAction" />
+	    		<ref bean="RdReturnAction" />
+	    		
+	    		<!--<ref bean="RdReleaseAction" />-->
+	    	</list>
+	    </property>
+	</bean>
+	
+	<bean id="BrefreshAction" class="nc.ui.so.qs.mmplanmmdetail.actions.RefreshAction">
+		<property name="model" ref="PlanDetailMManageAppModel"></property>
+		<property name="fmodel" ref="PlanDetaiManageAppModel"></property>
+	</bean>
+	
+	<bean id="RdDeleteAction" class="nc.ui.so.qs.mmplanmmdetail.actions.DeleteAction">
+		<property name="model" ref="PlanDetailMManageAppModel"></property>
+		<property name="fmodel" ref="PlanDetaiManageAppModel"></property>
+	</bean>
+	
+	<bean id="RdReleaseAction" class="nc.ui.so.qs.mmplanmmdetail.actions.RdReleaseAction">
+		<property name="model" ref="PlanDetailMManageAppModel"></property>
+	</bean>
+	
+	<bean id="RdReturnAction" class="nc.ui.so.qs.mmplanmmdetail.actions.RdReturnAction">
+		<property name="model" ref="PlanDetailMManageAppModel"></property>
+	</bean>
+	
+	
+	<bean id="RdMakeRPMOAction" class="nc.ui.so.qs.mmplanmmdetail.actions.RdMakeRPMOAction">
+		<property name="model" ref="PlanDetailMManageAppModel"></property>
+	</bean>
+	
+	<bean id="IntoProdDetailListView" class="nc.ui.so.qs.mmplanbill.view.IntoProdDetailListView" init-method="initUI">
+		<property name="model" ref="IpManageAppModel"></property>
+		<property name="multiSelectionEnable" value="false" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="nodekey" value="Intoproddetaillist" />
+		<property name="userdefitemListPreparator">
+			<bean name="userdefAndMarAsstListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+				<property name="billListDataPrepares">
+					<list>
+						<ref bean="userdefitemlistPreparatorByIp" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+		
+	<bean id="MachineMmOrderListView" class="nc.ui.so.qs.mmplanbill.view.MachineMmOrderListView" init-method="initUI">
+		<property name="model" ref="MmOrderManageAppModel" />
+		<property name="multiSelectionEnable" value="true" />
+		<property name="north" ref="listInfoPnl3"></property>
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="nodekey" value="plandetailmmlist" />
+		<property name="userdefitemListPreparator">
+			<bean name="userdefAndMarAsstListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+				<property name="billListDataPrepares">
+					<list>
+						<ref bean="userdefitemlistPreparatorByRdpd" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	
+	<bean id="listInfoPnl3" class="nc.ui.uif2.tangramlayout.CardLayoutToolbarPanel">
+		<property name="model" ref="PlanDetailMManageAppModel" />
+		<property name="actions">
+	    	<list>
+	    		<ref bean="RdQueryAction" />
+	    		<ref bean="RdRefreshAction" />
+	    		<ref bean="ReAction" />
+	    		<ref bean="RdTPMOAction" />
+	    	</list>
+	    </property>
+	</bean>
+	
+	
+	
+	<bean id="RdQueryAction" class="nc.ui.so.qs.mmplanmmdetail.actions.RdQueryAction">
+		<property name="model" ref="MmOrderManageAppModel"></property>
+	    <property name="dataManager" ref="RdDataManager"></property>
+	   	<property name="NodeKey" value="rdquery" />
+	   	<property name="qryCondDLGInitializer" ref="RdQryCondDLGInitializer"></property>
+	</bean>
+	
+	<bean id="RdRefreshAction" class="nc.ui.so.qs.mmplanmmdetail.actions.RdRefreshAction">
+		<property name="model" ref="MmOrderManageAppModel"></property>
+	    <property name="dataManager" ref="RdDataManager"></property>
+	</bean>
+	
+	<bean id="ReAction" class="nc.ui.so.qs.mmplanbill.rd2pmo.action.RdReturnAction">
+		<property name="model" ref="MmOrderManageAppModel"></property>
+	</bean>
+	
+	<bean id="RdTPMOAction" class="nc.ui.so.qs.mmplanbill.rd2pmo.action.RdMakePMOAction">
+		<property name="model" ref="MmOrderManageAppModel"></property>
+	</bean>
+	
+	
+	
+	<bean id="RdQryCondDLGInitializer" class="nc.ui.so.qs.mmplanbill.query.RdQryCondDLGInitializer">	
+  	</bean>
+	
+	
+	<bean id="RdDataManager" class="nc.ui.so.qs.mmplanbill.model.RdItemDataManager" >
+		<property name="model" ref="MmOrderManageAppModel"></property>
+	</bean>
+	
+	<bean name="userdefitemlistPreparator" class="nc.ui.uif2.editor.UserdefitemContainerListPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.MmPlanBill" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="vbdef" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="userdefitemlistPreparatorByPlanDetail" class="nc.ui.uif2.editor.UserdefitemContainerListPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.PlanProduceDetailVO" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="vbdef" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="userdefitemlistPreparatorByRdpd" class="nc.ui.uif2.editor.UserdefitemContainerListPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.rd_pd" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="def" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="userdefitemlistPreparatorByIp" class="nc.ui.uif2.editor.UserdefitemContainerListPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.IntoProdDetailVO" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="def" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="marAsstPreparator" class="nc.ui.pubapp.uif2app.view.material.assistant.MarAsstPreparator">
+		<property name="model" ref="manageAppModel" />
+		<property name="container" ref="userdefitemContainer" />
+		<property name="prefix" value="vfree" />
+		<property name="materialField" value="pk_material" />
+		<property name="projectField" value="cprojectid" /> 
+		<property name="supplierField" value="cvendorid" />
+		<property name="productorField" value="cproductorid" />
+	</bean>
+	
+		
+	<bean id="QueryActionGroup" class="nc.funcnode.ui.action.GroupAction">
+		<property name="code" value="QueryGroup"></property>
+		<property name="name" value="查询"></property>
+		<property name="actions">
+			<list>
+				<ref bean="PreQueryAction" />
+				<ref bean="PrefreshAction" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="PlanCancelAction" class="nc.ui.so.qs.mmplanbill.actions.PlanBillDeleteAction">
+		<property name="model" ref="manageAppModel"></property>
+	</bean>
+	
+	<bean id="separatorAction" class="nc.funcnode.ui.action.SeparatorAction" />
+	
+	<bean id="PreQueryAction" class="nc.ui.so.qs.mmplanbill.actions.PlanBillQueryActions">
+		<property name="model" ref="manageAppModel"></property>
+	    <property name="dataManager" ref="modelDataManager"></property>
+	   	<property name="NodeKey" value="mmplan" />
+	   	<property name="qryCondDLGInitializer" ref="MmPlanQryCondDLGInitializer"></property>
+	</bean>
+	
+	<bean id="PrefreshAction" class="nc.ui.uif2.actions.RefreshAction">
+		<property name="dataManager" ref="modelDataManager" />
+		<property name="model" ref="manageAppModel" />
+	</bean>
+	
+	<bean id="MmPlanQryCondDLGInitializer" class="nc.ui.so.qs.mmplanbill.query.PlanBillQryCondDLGInitializer">	
+  	</bean>
+	
+	 <!-- 打印 -->
+	<bean id="printAction" class="nc.ui.pubapp.uif2app.actions.MetaDataBasedPrintAction">
+		<property name="preview" value="false" />
+		<property name="model" ref="manageAppModel" />
+		<property name="nodeKey" value="dd" />
+	</bean>
+	
+	<!-- 预览 -->
+	<bean id="previewAction" class="nc.ui.pubapp.uif2app.actions.MetaDataBasedPrintAction">
+		<property name="preview" value="true" />
+		<property name="model" ref="manageAppModel" />
+		<property name="nodeKey" value="dd" />
+	</bean>
+	
+	<!-- 打印按钮组 -->
+	<bean id="printMenuAction" class="nc.funcnode.ui.action.GroupAction">
+		<property name="code" value="printMenuAction" />
+		<property name="name">
+			<bean class="nc.ui.uif2.I18nFB">
+			  	<property name="resDir" value="common"></property>
+				<property name="resId" value="UC001-0000007"></property>
+				<property name="defaultValue" value="打印"></property>
+			</bean>
+		</property>
+		<property name="actions">
+			<list>
+				<ref bean="printAction" />
+				<ref bean="previewAction" />
+			</list>
+		</property>
+	</bean>
+	
+	
+</beans>
+
+
+

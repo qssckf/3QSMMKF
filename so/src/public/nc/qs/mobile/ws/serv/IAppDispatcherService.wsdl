@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+jaxb:version="2.0"
+xmlns:ns0="http://serv.ws.mobile.qs.nc/IAppDispatcherService"
+targetNamespace="http://serv.ws.mobile.qs.nc/IAppDispatcherService">
+
+<jaxws:bindings>
+	<jaxws:package name="nc.qs.mobile.ws.serv"/>
+</jaxws:bindings>
+
+<wsdl:types>
+   <xsd:schema xmlns:ns="http://serv.ws.mobile.qs.nc/IAppDispatcherService"
+			attributeFormDefault="unqualified"
+			elementFormDefault="unqualified"
+			targetNamespace="http://serv.ws.mobile.qs.nc/IAppDispatcherService" jaxb:version="2.0">
+	<xsd:annotation>
+    	<xsd:appinfo>
+   			<jaxb:schemaBindings>
+    			<jaxb:package name="nc.qs.mobile.ws.serv"/>
+    		</jaxb:schemaBindings>
+   		</xsd:appinfo>
+   	</xsd:annotation>
+	<xsd:element name="doService">
+         <xsd:complexType>
+            <xsd:sequence>
+				<xsd:element name="string"  minOccurs="0" nillable="true" type="xsd:string"/>
+             </xsd:sequence>  
+         </xsd:complexType>
+     </xsd:element>
+	<xsd:element name="doServiceResponse">
+         <xsd:complexType>
+            <xsd:sequence>
+				<xsd:element name="return"  minOccurs="0" nillable="true" type="xsd:string"/>
+             </xsd:sequence>  
+         </xsd:complexType>
+     </xsd:element>
+   </xsd:schema>
+</wsdl:types>
+    <wsdl:message name="doServiceRequest">
+        <wsdl:part name="parameters"  element="ns0:doService"/>
+    </wsdl:message>
+    <wsdl:message name="doServiceResponse">
+        <wsdl:part name="parameters"  element="ns0:doServiceResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="IAppDispatcherServicePortType">
+        <wsdl:operation name="doService">
+            <wsdl:input message="ns0:doServiceRequest" wsaw:Action="urn:doService"/>
+            <wsdl:output message="ns0:doServiceResponse" wsaw:Action="urn:doServiceResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    
+    
+    <wsdl:binding name="IAppDispatcherServiceSOAP11Binding" type="ns0:IAppDispatcherServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="doService">
+            <soap:operation soapAction="urn:doService" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="IAppDispatcherService">
+        <wsdl:port name="IAppDispatcherServiceSOAP11port_http" binding="ns0:IAppDispatcherServiceSOAP11Binding">
+            <soap:address location="http://localhost/uapws/service/IAppDispatcherService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

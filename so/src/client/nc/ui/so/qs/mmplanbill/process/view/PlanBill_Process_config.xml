@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="context" class="nc.vo.uif2.LoginContext"></bean>
+	
+	<bean id="boAdatorFactory" class="nc.vo.bd.meta.BDObjectAdpaterFactory" />
+	
+
+	
+	<bean id="remoteCallCombinatorCaller" class="nc.ui.uif2.editor.UIF2RemoteCallCombinatorCaller">
+	 	<property name="remoteCallers">
+	 		<list>
+	 			<ref bean="templateContainer" />
+	 			<ref bean="userdefitemContainer" />
+	 		</list>
+	 	</property>
+	</bean>
+	
+	<bean id="templateContainer" class="nc.ui.uif2.editor.TemplateContainer" init-method="load">
+		<property name="context" ref="context" />
+		<property name="nodeKeies">
+			<list>
+				<value>PlanBilll</value>
+				<value>BomVer</value>
+				<value>BomChild</value>
+			</list>
+		</property>
+	</bean>
+	
+		
+	<bean id="userdefitemContainer" class="nc.ui.uif2.userdefitem.UserDefItemContainer">
+		<property name="context" ref="context" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="mdfullname" value="so.MmPlanBill" />
+				</bean>
+				 <bean class="nc.ui.uif2.userdefitem.QueryParam">
+          			<property name="rulecode" value="materialassistant" />
+        		 </bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="userdefitemPreparator" class="nc.ui.uif2.editor.UserdefitemContainerPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.MmPlanBill" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="vbdef" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="marAsstPreparator" class="nc.ui.pubapp.uif2app.view.material.assistant.MarAsstPreparator">
+		<property name="model" ref="PlanBillAppModel" />
+		<property name="container" ref="userdefitemContainer" />
+		<property name="prefix" value="vfree" />
+		<property name="materialField" value="pk_material" />
+		<property name="projectField" value="cprojectid" /> 
+		<property name="supplierField" value="cvendorid" />
+		<property name="productorField" value="cproductorid" />
+	</bean>
+	
+	<bean id="container" class="nc.ui.uif2.TangramContainer" init-method="initUI">
+		<property name="model" ref="PlanBillAppModel" />
+		<property name="tangramLayoutRoot">
+			<bean class="nc.ui.uif2.tangramlayout.node.VSNode">
+				<property name="up">
+					<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+						<property name="component" ref="PlanBillCard" />
+					</bean>
+				</property>
+				<property name="down">
+					<ref bean="ProdBOMArea" />
+				</property>
+				<property name="dividerLocation" value="0.6f" />
+			</bean>
+		</property>
+		<property name="actions">
+			<list>
+				<ref bean="editAction" />
+				<ref bean="ExpendAction" />
+				<ref bean="UnExpendAction" />
+			</list>
+		</property>
+		<property name="editActions">
+			<list>
+				<ref bean="saveAction" />
+				<ref bean="separatorAction" />
+				<ref bean="cancelAction" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ProdBOMArea" class="nc.ui.uif2.tangramlayout.node.HSNode">
+		<property name="left">
+			<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+				<property name="component" ref="BOMVersionList" />
+			</bean>
+		</property>
+		<property name="right">
+			<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+				<property name="component" ref="BOMChildList" />
+			</bean>
+		</property>
+		<property name="dividerLocation">
+			<value>0.35f</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="PlanBillCard" class="nc.ui.so.qs.mmplanbill.process.view.PlanBillProcessBillFrom" init-method="initUI">
+		<property name="model" ref="PlanBillAppModel"/>
+		<property name="nodekey" value="PlanBilll"/>
+		<property name="componentValueManager">
+			<bean class="nc.ui.uif2.editor.value.BillCardPanelMetaDataValueAdapter" />
+		</property>
+		<property name="templateContainer" ref="templateContainer"/>
+		<property name="userdefitemPreparator" ref="userdefAndMarAsstCardPreparator" />
+	</bean>
+	
+	<bean id="userdefAndMarAsstCardPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillDataPrepare">
+		<property name="billDataPrepares">
+			<list>
+				<ref bean="userdefitemPreparator" />
+				<ref bean="marAsstPreparator" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="BOMVersionList" class="nc.ui.so.qs.mmplanbill.process.view.BOMVersionListView" init-method="initUI">
+		<property name="model" ref="BomVerAppModel" />
+		<property name="card" ref="PlanBillCard"></property>
+		<property name="BomModel" ref="BomChildAppModel"></property>
+		<property name="multiSelectionEnable" value="false" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="nodekey" value="BomVer" />
+	</bean>
+	
+	<bean id="BOMChildList" class="nc.ui.so.qs.mmplanbill.process.view.BOMChlidListView" init-method="initUI">
+		<property name="model" ref="BomChildAppModel" />
+		<property name="multiSelectionEnable" value="false" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="nodekey" value="BomChild" />
+	</bean>
+	
+	<bean id="BomChildAppModel" class="nc.ui.so.qs.mmplanbill.process.model.BomChildAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+	</bean>
+	
+	<bean id="service" class="nc.ui.so.qs.mmplanbill.process.service.PlanBillProService">
+	</bean>
+	
+	<bean id="PlanBillAppModel" class="nc.ui.so.qs.mmplanbill.process.model.PlanBillAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+		<property name="service" ref="service"/>
+	</bean>
+	
+	<bean id="BomVerAppModel" class="nc.ui.so.qs.mmplanbill.process.model.BomVerAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+	</bean>
+	
+
+	<bean id="InitDataListener" class="nc.ui.so.qs.mmplanbill.process.model.PlanBillProcessInitDataListener">
+		<property name="PlanModel" ref="PlanBillAppModel" />
+		<property name="BomModel" ref="BomVerAppModel" />
+	</bean>
+	
+	<bean id="closingListener" class="nc.ui.uif2.FunNodeClosingHandler">
+		<property name="model" ref="PlanBillAppModel" />
+		<property name="saveaction" ref="saveAction" />
+		<property name="cancelaction" ref="cancelAction" />
+	</bean>
+	
+	<bean id="editAction" class="nc.ui.so.qs.mmplanbill.process.actions.PlanBillEditAction">
+		<property name="model" ref="PlanBillAppModel" />
+	</bean>
+	
+	<bean id="saveAction" class="nc.ui.so.qs.mmplanbill.process.actions.PlanBillSaveAction">
+		<property name="model" ref="PlanBillAppModel" />
+		<property name="editor" ref="PlanBillCard" />
+		<property name="validationService" ref="validateService" />
+	</bean>
+	
+	<bean id="ExpendAction" class="nc.ui.so.qs.mmplanbill.process.actions.PlanBillExecAction">
+		<property name="model" ref="PlanBillAppModel" />
+		<property name="editor" ref="PlanBillCard" />
+		<property name="validationService" ref="ExpendvalidateService" />
+	</bean>
+	
+	<bean id="UnExpendAction" class="nc.ui.so.qs.mmplanbill.process.actions.PlanBillUnExecAction">
+		<property name="model" ref="PlanBillAppModel" />
+		<property name="editor" ref="PlanBillCard" />
+		<property name="validationService" ref="UnExpendvalidateService" />
+	</bean>
+	
+	<!-- 保存组合校验 -->
+	<bean id="validateService" class="nc.ui.pubapp.uif2app.validation.CompositeValidation">
+		<property name="validators">
+			<list>
+				<bean class="nc.ui.pubapp.uif2app.validation.TemplateNotNullValidation">
+					<property name="billForm" ref="PlanBillCard" />
+				</bean>
+				<bean class="nc.ui.so.qs.mmplanbill.process.actions.TmKZNotNullValidation">
+					<property name="model" ref="PlanBillAppModel" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 展开组合校验 -->
+	<bean id="ExpendvalidateService" class="nc.ui.pubapp.uif2app.validation.CompositeValidation">
+		<property name="validators">
+			<list>
+				<bean class="nc.ui.so.qs.mmplanbill.process.actions.validation.ExpendStatusValidation">
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="UnExpendvalidateService" class="nc.ui.pubapp.uif2app.validation.CompositeValidation">
+		<property name="validators">
+			<list>
+				<bean class="nc.ui.so.qs.mmplanbill.process.actions.validation.UnExpendStatusValidation">
+				</bean>
+				<bean class="nc.ui.so.qs.mmplanbill.process.actions.validation.ExtendChdChkValidation">
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="cancelAction" class="nc.ui.pubapp.uif2app.actions.CancelAction">
+		<property name="model" ref="PlanBillAppModel" />
+	</bean>
+	
+	<bean id="separatorAction" class="nc.funcnode.ui.action.SeparatorAction" />
+	
+	<bean id="eventMediator" class="nc.ui.pubapp.uif2app.model.AppEventHandlerMediator">
+		<property name="model" ref="PlanBillAppModel" />
+		<property name="handlerGroup">
+			<list>
+				<bean class="nc.ui.pubapp.uif2app.event.EventHandlerGroup">
+					<property name="event" value="nc.ui.pubapp.uif2app.event.card.CardHeadTailBeforeEditEvent" />
+					<property name="handler">
+						<bean class="nc.ui.so.qs.mmplanbill.process.handler.PlanBillProcessHeadBeforeEdit">
+						</bean>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

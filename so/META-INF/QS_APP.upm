@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<module>
+	<public>
+	
+	
+		<component>
+			<interface>nc.qs.mobile.ws.serv.IAppDispatcherService</interface>
+			<implementation>nc.qs.mobile.ws.Impl.AppDispatcherServerImpl</implementation>
+			<extension class="nc.uap.ws.deploy.OxbWSExtensionProcessor">
+				<wsdl>/nc/qs/mobile/ws/serv/IAppDispatcherService.wsdl</wsdl>
+				<address>/MobileInterface</address>
+			</extension>
+		</component>
+		
+		<component remote="true" singleton="true"  tx="CMT">
+	  		<interface>nc.itf.so.qs.appinterface.MobileApprove.IMobileApproveService</interface>
+	  		<implementation>nc.impl.so.qs.appinterface.mobileapprove.MobileApproveServiceImpl</implementation>
+		</component>
+	
+	</public>
+	<private>
+	</private>
+	
+</module>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="context" class="nc.vo.uif2.LoginContext"></bean>
+	
+	<bean id="boAdatorFactory" class="nc.vo.bd.meta.BDObjectAdpaterFactory" />
+	
+	<bean id="QueryTemplateContainer" class="nc.ui.uif2.editor.QueryTemplateContainer">
+    	<property name="context" ref="context"></property>
+    </bean>
+    
+    <bean id="templateContainer" class="nc.ui.uif2.editor.TemplateContainer" init-method="load">
+		<property name="context" ref="context" />
+		<property name="nodeKeies">
+			<list>
+				<value>rdprodlist</value>
+				<value>itprodlist</value>
+				<value>itmmlist</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userdefitemContainer" class="nc.ui.uif2.userdefitem.UserDefItemContainer">
+		<property name="context" ref="context" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="mdfullname" value="so.IntoProdDetailVO" />
+				</bean>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="mdfullname" value="so.rd_pd" />
+				</bean>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="rulecode" value="materialassistant" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="remoteCallCombinatorCaller" class="nc.ui.uif2.editor.UIF2RemoteCallCombinatorCaller">
+	 	<property name="remoteCallers">
+	 		<list>
+	 			<ref bean="QueryTemplateContainer" />
+	 			<ref bean="templateContainer" />
+	 			<ref bean="userdefitemContainer"/>
+	 		</list>
+	 	</property>
+	</bean>
+	
+	<bean id="manageAppModel" class="nc.ui.so.qs.intoprod.model.ManageAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="supportLazilyLoad" value="false"></property>
+		<property name="cmodel" ref="IntoProdManageModel"></property>
+	</bean>
+	
+	<bean id="container" class="nc.ui.uif2.TangramContainer" init-method="initUI">
+		<property name="model" ref="manageAppModel" />
+		<property name="tangramLayoutRoot">
+			<ref bean="IntoProdArea" />
+		</property>
+		<property name="actions">
+			<list>
+				<ref bean="QueryActionGroup" />
+				<ref bean="separatorAction" />
+				<!--<ref bean="printMenuAction"/>-->
+			</list>
+		</property>
+		<property name="editActions">
+			<list>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="QueryActionGroup" class="nc.funcnode.ui.action.GroupAction">
+		<property name="code" value="QueryGroup"></property>
+		<property name="name" value="查询"></property>
+		<property name="actions">
+			<list>
+				<ref bean="RdQueryAction" />
+				<ref bean="RefreshAction" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="RefreshAction" class="nc.ui.uif2.actions.RefreshAction">
+		<property name="dataManager" ref="modelDataManager" />
+		<property name="model" ref="manageAppModel" />
+	</bean>
+	
+	<bean id="separatorAction" class="nc.funcnode.ui.action.SeparatorAction" />
+	
+	<bean id="RdQueryAction" class="nc.ui.so.qs.intoprod.action.RdQueryAction">
+		<property name="model" ref="manageAppModel"></property>
+	    <property name="dataManager" ref="modelDataManager"></property>
+	   	<property name="NodeKey" value="rdquery" />
+	   	<property name="qryCondDLGInitializer" ref="RdQryCondDLGInitializer"></property>
+	</bean>
+	
+	<bean id="RdQryCondDLGInitializer" class="nc.ui.so.qs.mmplanbill.query.RdQryCondDLGInitializer">	
+  	</bean>
+	
+	<bean id="modelDataManager" class="nc.ui.so.qs.intoprod.model.RdDataManager">
+	    <property name="model" ref="manageAppModel"/>
+	    <property name="paginationModel" ref="paginationModel" />
+	    <property name="service" ref="service"/>
+	</bean>
+	
+	<bean id="service" class="nc.ui.so.qs.intoprod.service.RdAppModelService">
+	</bean>
+	
+	<bean id="Ipservice" class="nc.ui.so.qs.intoprod.input.service.ItService">
+	</bean>
+	
+	<bean id="paginationModel" class="nc.ui.uif2.components.pagination.PaginationModel" init-method="init" />
+	
+	
+	<bean id="IntoProdArea" class="nc.ui.uif2.tangramlayout.node.VSNode">
+		<property name="up">
+			<ref bean="UpPlanArea" />
+		</property>
+		<property name="down">
+			<ref bean="DownPlanArea" />
+		</property>
+		<property name="dividerLocation" value="0.50f" />
+	</bean>
+	
+	<bean id="DownPlanArea" class="nc.ui.uif2.tangramlayout.node.CNode">
+		<property name="component" ref="ItPmoList" />
+	</bean>
+	
+	<bean id="UpPlanArea" class="nc.ui.uif2.tangramlayout.node.HSNode">
+		<property name="left">
+			<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+				<property name="component" ref="RdList" />
+			</bean>
+		</property>
+		<property name="right">
+			<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+				<property name="component" ref="IntoProdList" />
+			</bean>
+		</property>
+		<property name="dividerLocation" value="0.55f" />
+	</bean>
+	
+	
+	
+	<bean id="RdList" class="nc.ui.so.qs.intoprod.view.IntoProdRdListView" init-method="initUI">
+		<property name="model" ref="manageAppModel" />
+		<property name="rdmodel" ref="IntoProdManageModel"></property>
+		<property name="multiSelectionEnable" value="false" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="north" ref="listInfoPnl1"></property>
+		<property name="nodekey" value="rdprodlist" />
+		<property name="south" ref="paginationBar" />
+		<property name="userdefitemListPreparator">
+			<bean name="userdefAndMarAsstListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+				<property name="billListDataPrepares">
+					<list>
+						<ref bean="userdefitemlistPreparatorByRdpd" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="listInfoPnl1" class="nc.ui.uif2.tangramlayout.CardLayoutToolbarPanel">
+	</bean>
+	
+	<bean id="IntoProdList" class="nc.ui.so.qs.intoprod.view.IntoProdDetailListView" init-method="initUI">
+		<property name="model" ref="IntoProdManageModel"></property>
+		<property name="rdmodel" ref="manageAppModel" />
+		<property name="multiSelectionEnable" value="false" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="north" ref="listInfoPnl"></property>
+		<property name="nodekey" value="itprodlist" />
+		<property name="userdefitemListPreparator">
+			<bean name="userdefAndMarAsstListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+				<property name="billListDataPrepares">
+					<list>
+						<ref bean="userdefitemlistPreparatorByIt" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="listInfoPnl" class="nc.ui.uif2.tangramlayout.CardLayoutToolbarPanel">
+		<property name="model" ref="IntoProdManageModel" />
+		<property name="actions">
+	    	<list>
+	    		<ref bean="RrefreshAction" />
+	    		<ref bean="IpDeleteAction" />
+	    	</list>
+	    </property>
+	</bean>
+	
+	
+	<bean id="RrefreshAction" class="nc.ui.so.qs.intoprod.input.action.RefreshAction">
+		<property name="model" ref="IntoProdManageModel"></property>
+		<property name="fmodel" ref="manageAppModel"></property>
+	</bean>
+	
+	<bean id="IpDeleteAction" class="nc.ui.so.qs.intoprod.input.action.IpDeleteAction">
+		<property name="model" ref="IntoProdManageModel"></property>
+		<property name="fmodel" ref="manageAppModel"></property>
+		<property name="exceptionHandler" ref="DefaultExceptionHanler"></property>
+	</bean>
+	
+	<bean id="DefaultExceptionHanler" class="nc.ui.uif2.DefaultExceptionHanler">
+		<property name="context" ref="context"></property>
+	</bean>
+	
+	
+	
+	<bean id="ItPmoList" class="nc.ui.so.qs.intoprod.view.IntoProdMMListView" init-method="initUI">
+		<property name="model" ref="ItPmoManageModel"></property>
+		<property name="multiSelectionEnable" value="true" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="nodekey" value="itmmlist" />
+		<property name="north" ref="listInfoPnl2"></property>
+		<property name="userdefitemListPreparator">
+			<bean name="userdefAndMarAsstListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+				<property name="billListDataPrepares">
+					<list>
+						<ref bean="userdefitemlistPreparatorByIt" />
+						<ref bean="marAsstPreparator" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="listInfoPnl2" class="nc.ui.uif2.tangramlayout.CardLayoutToolbarPanel">
+		<property name="model" ref="IntoProdManageModel" />
+		<property name="actions">
+	    	<list>
+	    		<ref bean="IpQueryAction" />
+	    		<ref bean="Ip2PMOAction" />
+	    	</list>
+	    </property>
+	</bean>
+	
+	<bean id="Ip2PMOAction" class="nc.ui.so.qs.intoprod.action.IpMakePMOAction">
+		<property name="model" ref="ItPmoManageModel" />
+	</bean>
+	
+	<bean id="IpQueryAction" class="nc.ui.so.qs.intoprod.action.IpQueryAction">
+		<property name="model" ref="ItPmoManageModel"></property>
+	    <property name="dataManager" ref="IpDataManager"></property>
+	   	<property name="NodeKey" value="IpmpoQuery" />
+	   	<property name="qryCondDLGInitializer" ref="RdQryCondDLGInitializer"></property>
+	</bean>
+	
+	
+	
+	<bean id="IpDataManager" class="nc.ui.so.qs.intoprod.model.IpDataManager" >
+		<property name="model" ref="ItPmoManageModel"></property>
+	</bean>
+	
+	
+	
+	
+	
+	<bean id="paginationBar" class="nc.ui.uif2.components.pagination.PaginationBar" init-method="registeCallbak">
+		<property name="paginationModel" ref="paginationModel" />
+		<property name="context" ref="context" />
+	</bean>
+	
+	<bean id="IntoProdManageModel" class="nc.ui.so.qs.intoprod.model.IntoProdAppModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+		<property name="service" ref="Ipservice"/>
+	</bean>
+	
+	<bean id="ItPmoManageModel" class="nc.ui.so.qs.intoprod.model.ItPmoManageModel">
+		<property name="businessObjectAdapterFactory" ref="boAdatorFactory" />
+		<property name="context" ref="context" />
+	</bean>
+	
+	<bean name="userdefitemlistPreparatorByRdpd" class="nc.ui.uif2.editor.UserdefitemContainerListPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.rd_pd" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="def" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="userdefitemlistPreparatorByIt" class="nc.ui.uif2.editor.UserdefitemContainerListPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.IntoProdDetailVO" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="def" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="marAsstPreparator" class="nc.ui.pubapp.uif2app.view.material.assistant.MarAsstPreparator">
+		<property name="model" ref="manageAppModel" />
+		<property name="container" ref="userdefitemContainer" />
+		<property name="prefix" value="vfree" />
+		<property name="materialField" value="pk_material" />
+		<property name="projectField" value="cprojectid" /> 
+		<property name="supplierField" value="cvendorid" />
+		<property name="productorField" value="cproductorid" />
+	</bean>
+	
+</beans>
+

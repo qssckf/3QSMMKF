@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding='gb2312'?>
+<module name="so">
+  <public>
+  
+	<component remote="true" singleton="true"  tx="CMT">
+	  <interface>nc.itf.so.qs.sc.planbill.service.IPlanBillSerive</interface>
+	  <implementation>nc.impl.so.qs.sc.planbill.PlanBillServiceImpl</implementation>
+	</component>
+	
+	<component remote="true" singleton="true"  tx="CMT">
+	  <interface>nc.itf.so.qs.sc.planbill.service.IRdMmService</interface>
+	  <implementation>nc.impl.so.qs.sc.planbill.RdMmServiceImpl</implementation>
+	</component>
+	
+  </public> 
+</module> 

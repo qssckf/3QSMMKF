@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="gb2312"?>
+<module name="SO_QSSC">
+  <public>
+    <!--机器档案查询-->
+    <component remote="true" tx="CMT" priority="0" singleton="true" supportAlias="false">
+      <interface>nc.itf.so.qs.sc.maschine.service.IMaschineQuery</interface>
+      <implementation>nc.impl.so.qs.sc.maschine.bill.MaschineQueryImpl</implementation>
+    </component>
+   <!--机器档案修改-->
+   <component remote="true" tx="CMT" priority="0" singleton="true" supportAlias="false">
+      <interface>nc.itf.so.qs.sc.maschine.service.IMaschineMaintain</interface>
+      <implementation>nc.impl.so.qs.sc.maschine.bill.MaschineMaintainImpl</implementation>
+    </component>
+  </public>
+</module>

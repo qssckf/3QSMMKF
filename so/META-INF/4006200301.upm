@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="gbk"?>
+<module name="so">
+	<public>
+		    <!-- 接口 -->
+		    <component priority="0" singleton="true" remote="true" tx="CMT" supportAlias="true">
+	      <interface>nc.itf.so.IShipmentsInfoMaintain</interface>
+	      <implementation>nc.impl.so.ShipmentsInfoMaintainImpl</implementation>
+	    </component>
+		<!--交易类型-->
+	    <component remote="true" tx="CMT" priority="0" singleton="true" supportAlias="false">
+	      <interface>nc.itf.so.qs.sc.FQ01trantype.IFQ01TranTypeService</interface>
+	      <implementation>nc.itf.so.qs.sc.FQ01trantype.FQ01TranTypeServiceImpl</implementation>
+		  <extension class="nc.bs.framework.server.ClientWeaverExtensionProcessor">
+	           <wrapWeaver>
+	                   <wrapper>nc.itf.so.qs.sc.FQ01trantype.FQ01TranTypeServiceImpl</wrapper>
+	           </wrapWeaver>
+	      </extension>
+	    </component>
+	</public>
+</module>

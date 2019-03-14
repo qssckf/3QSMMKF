@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	
+	<bean id="formulaContainer" class="nc.ui.uif2.TangramContainer" init-method="initUI">
+		<property name="tangramLayoutRoot">
+			<bean class="nc.ui.uif2.tangramlayout.node.VSNode">
+				<property name="up">
+					<bean class="nc.ui.uif2.tangramlayout.node.HSNode">
+						<property name="left">
+							<bean class="nc.ui.uif2.tangramlayout.node.VSNode">
+								<property name="up">
+									<bean class="nc.ui.uif2.tangramlayout.node.VSNode">
+										<property name="up">
+											<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+												<property name="component">
+													<ref bean="formulaRealEditorPanel" />
+												</property>
+											</bean>
+										</property>
+										<property name="down">
+											<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+												<property name="component">
+													<ref bean="formulavalueRealEditorPanel" />
+												</property>
+											</bean>
+										</property>
+									</bean>
+								</property>
+								<property name="down">
+									<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+										<property name="component">
+											<ref bean="formulaButtonPanel" />
+										</property>
+									</bean>
+								</property>
+								<property name="dividerLocation">
+									<value>0.8f</value>
+								</property>
+							</bean>
+						</property>
+						<property name="right">
+							<bean class="nc.ui.uif2.tangramlayout.node.VSNode">
+								<property name="up">
+									<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+										<property name="component">
+											<ref bean="formulaDigitPanel" />
+										</property>
+									</bean>
+								</property>
+								<property name="down">
+									<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+										<property name="component">
+											<ref bean="formulaOperatorPanel" />
+										</property>
+									</bean>
+								</property>
+								<property name="dividerLocation">
+									<value>0.5f</value>
+								</property>
+							</bean>
+						</property>
+						<property name="dividerLocation">
+							<value>0.65f</value>
+						</property>
+					</bean>
+				</property>
+
+				<property name="down">
+					<bean class="nc.ui.uif2.tangramlayout.node.VSNode">
+						<property name="up">
+							<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+								<property name="component">
+									<ref bean="formulaVariablePanel" />
+								</property>
+							</bean>
+						</property>
+						<property name="down">
+							<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+								<property name="component">
+									<ref bean="formulaHintMsgPanel" />
+								</property>
+							</bean>
+						</property>
+						<property name="dividerLocation">
+							<value>0.9f</value>
+						</property>
+					</bean>
+				</property>
+				<property name="dividerLocation">
+					<value>0.4f</value>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="formulaRealEditorPanel" class="nc.ui.so.wa.piece.ace.view.dialog.PieceFormulaRealEditorPanel" init-method="initUI">
+		<property name="formulaParse">
+			<ref bean="formulaParse" />
+		</property>
+		<property name="formulaWordSorter">
+			<ref bean="formulaWordSorter" />
+		</property>
+		<property name="formulaTokenMarker">
+			<ref bean="formulaTokenMarker" />
+		</property>
+		<property name="formulaCodeEditorPanel">
+			<ref bean="formulavalueRealEditorPanel"></ref>
+		</property>
+	</bean>
+	
+	<bean id="formulavalueRealEditorPanel" class="nc.ui.so.wa.piece.ace.view.dialog.PieceFormulaCodeRealEditorPanel" init-method="initUI">
+		<property name="formulaParse">
+			<ref bean="formulaParse" />
+		</property>
+	</bean>
+	
+	<bean id="formulaButtonPanel" class="nc.ui.pub.formula.dialog.FormulaButtonPanel" init-method="initUI">
+		<property name="actions">
+			<list>
+				<ref bean="formulaClearAction" />
+				<ref bean="formulaDeleteAction" />
+				<ref bean="formulaValidateAction" />
+				<ref bean="formulaOKAction" />
+				<ref bean="formulaCancelAction" />
+			</list>
+		</property>
+		<property name="actionsWithDialog">
+			<list>
+				<ref bean="formulaClearAction" />
+			    <ref bean="formulaOKAction" />
+				<ref bean="formulaCancelAction" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="formulaClearAction" class="nc.ui.so.wa.piece.ace.view.dialog.action.PieceFormulaClearAction">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="formulaValueEditorPanel">
+			<ref bean="formulavalueRealEditorPanel"></ref>
+		</property>
+	</bean>
+	
+	<bean id="formulaDeleteAction" class="nc.ui.so.wa.piece.ace.view.dialog.action.PieceFormulaDeleteAction">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="formulaValueEditorPanel">
+			<ref bean="formulavalueRealEditorPanel" />
+		</property>
+	</bean>
+	
+	<bean id="formulaValidateAction" class="nc.ui.so.wa.piece.ace.view.dialog.action.PieceFormulaValidateAction">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="formulaValueEditorPanel">
+			<ref bean="formulavalueRealEditorPanel"></ref>
+		</property>
+		
+	</bean>
+	
+	<bean id="formulaOKAction" class="nc.ui.so.wa.piece.ace.view.dialog.action.PieceFormulaOKAction">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="formulaValueEditorPanel">
+			<ref bean="formulavalueRealEditorPanel"></ref>
+		</property>
+	</bean>
+	
+	<bean id="formulaCancelAction" class="nc.ui.pub.formula.dialog.FormulaCancelAction">
+	</bean>
+	
+	<bean id="formulaDigitPanel" class="nc.ui.pub.formula.dialog.FormulaDigitPanel">
+		<property name="listeners">
+			<list>
+				<ref bean="formulaRealEditorPanel" />
+				<ref bean="formulavalueRealEditorPanel" />
+				<ref bean="formulaHintMsgPanel" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="formulaOperatorPanel" class="nc.ui.so.wa.piece.ace.view.dialog.PieceFormulaOperatorPanel">
+		<property name="listeners">
+			<list>
+				<ref bean="formulaRealEditorPanel" />
+				<ref bean="formulavalueRealEditorPanel" />
+				<ref bean="formulaHintMsgPanel" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="formulaVariablePanel" class="nc.ui.pub.formula.dialog.FormulaVariablePanel" init-method="initUI">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="listeners">
+			<list>
+				<ref bean="formulaRealEditorPanel" />
+				<ref bean="formulavalueRealEditorPanel" />
+				<ref bean="formulaHintMsgPanel" />
+			</list>
+		</property>
+		<property name="customerTabBuilders">
+			<list>
+				<ref bean="BasInfoTabBuilder" />
+				<ref bean="BusInfoTabBuilder" />
+				<ref bean="OtherTabBuilder" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="BasInfoTabBuilder" class="nc.ui.so.wa.piece.ace.view.dialog.BasicTabBuilder">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="listeners">
+			<list>
+				<ref bean="formulaRealEditorPanel" />
+				<ref bean="formulavalueRealEditorPanel" />
+				<ref bean="formulaHintMsgPanel" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="BusInfoTabBuilder" class="nc.ui.so.wa.piece.ace.view.dialog.BusDataTabBuilder">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="listeners">
+			<list>
+				<ref bean="formulaRealEditorPanel" />
+				<ref bean="formulavalueRealEditorPanel" />
+				<ref bean="formulaHintMsgPanel" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="OtherTabBuilder" class="nc.ui.so.wa.piece.ace.view.dialog.OtherTabBuilder">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="listeners">
+			<list>
+				<ref bean="formulaRealEditorPanel" />
+				<ref bean="formulavalueRealEditorPanel" />
+				<ref bean="formulaHintMsgPanel" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="formulaFunctionPanel" class="nc.ui.pub.formula.dialog.FormulaFunctionPanel"
+		init-method="initUI">
+		<property name="formulaRealEditorPanel">
+			<ref bean="formulaRealEditorPanel" />
+		</property>
+		<property name="listeners">
+			<list>
+				<ref bean="formulaRealEditorPanel" />
+				<ref bean="formulavalueRealEditorPanel" />
+				<ref bean="formulaHintMsgPanel" />
+			</list>
+		</property>
+		<property name="customerTabBuilders">
+			<list>
+				<ref bean="commonFunTabBuilder" />
+			</list>
+		</property>
+		<property name="formulaTypeManager">
+			<ref bean="formulaTypeManager" />
+		</property>
+	</bean>
+	
+	<bean id="commonFunTabBuilder" class="nc.ui.pub.formula.dialog.CommonFunTabBuilder">
+		<property name="listeners">
+			<list>
+				<ref bean="formulaRealEditorPanel" />
+				<ref bean="formulavalueRealEditorPanel" />
+				<ref bean="formulaHintMsgPanel" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="formulaTypeManager" class="nc.ui.pub.formula.manager.FormulaTypeManager"
+		init-method="init">
+		<property name="formulaParse">
+			<ref bean="formulaParse" />
+		</property>
+		<property name="basicTypeConfigList">
+			<list>
+				<ref bean="basicStringType" />
+			</list>
+		</property>
+		<property name="customerTypeList">
+			<list>
+				<ref bean="customerType1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="basicStringType" class="nc.ui.pub.formula.manager.FormulaType">
+		<property name="typeId" value="0"></property>
+		<property name="show" value="false"></property>
+	</bean>
+
+	<bean id="customerType1" class="nc.ui.pub.formula.manager.FormulaType">
+		<property name="typeId" value="customer1"></property>
+		<property name="typeName" value="123"></property>
+		<property name="show" value="true"></property>
+		<property name="name2FormulaCommandMap">
+			<map>
+				<entry key="iif">
+					<bean class="nc.vo.pub.formulaset.function.If" />
+				</entry>
+				<entry key="date">
+					<bean class="nc.vo.pub.formulaset.function.Date" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="formulaParse" class="nc.ui.pub.formulaparse.FormulaParse" />
+	<bean id="formulaWordSorter" class="nc.ui.pub.formulaedit.FormulaWordSorter" />
+	<bean id="formulaTokenMarker" class="nc.ui.pub.formula.ui.FormulaTokenMarker" />
+	
+	<bean id="formulaHintMsgPanel" class="nc.ui.pub.formula.dialog.FormulaHintMsgPanel" />	
+</beans>

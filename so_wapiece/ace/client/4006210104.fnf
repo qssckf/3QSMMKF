@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="gbk"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="general" class="nc.pubapp.pade.code.funnode.FunNodePara">
+        <property name="moduleName" value="so" />
+	    <property name="bpfPath" value="test.bpf"/>
+	    <property name="funcode" value="4006210104"/>
+	    <property name="clientPackName" value="nc.ui.so.wa.piece.fetch"/>
+			    <property name="metaData" value="so_wapiece\METADATA\PieceFetchInfoVO.bmf"/>
+	    <property name="xmlPath" value="so_wapiece\src\client\nc\ui\so\wa/piece/fetch\ace\view\PieceFetchInfoVO_config.xml"/>
+	    <property name="metaDataType" value="singleType" />
+		<property name="funcregispath" value="so_wapiece/funcmodel/PieceFetchInfoVO/funcregis/4006210104.func" />
+		<property name="quetempath" value="${quetempath}" />
+		<property name="printtempath" value="${printtempath}" />
+		<property name="systembasepath" value="so_wapiece/systemplatebase/PieceFetchInfoVO/4006210104/4006210104.stb" />
+		<property name="extendSuffix" value=""/>
+		<property name="uif2ModelFilePath" value="so_wapiece\ace\uif2model\4006210104.umf"/>
+		<property name="busiCompName" value="so_wapiece"/>
+		<property name="metaDataId" value="1fbd6702-ce29-4589-bf6c-f4991c5b4c3e"/>
+	</bean>
+
+	<bean id="templet" class="nc.pubapp.pade.code.funnode.Templet">
+		<property name="tempStyle" value="1" />
+		<property name="nodeKey" value="" />
+		<property name="templetPath" value="so_wapiece/templet/PieceFetchInfoVO/billtemplet/4006210104.btf" />
+	</bean>
+	
+	<bean id="FilePackNameBean" class="nc.pubapp.pade.code.engine.FilePackNamePara">
+		<property name="filePackNameList">
+			 <list>
+				  <value>nc.ui.so.wa.piece.fetch.action.PieceFetchInfoVOAddLineAction.java</value>
+				  <value>nc.ui.so.wa.piece.fetch.handler.BodyAfterEditHandler.java</value>
+				  <value>nc.ui.so.wa.piece.fetch.handler.BodyBeforeEditHandler.java</value>
+			 </list>
+		</property>
+	</bean>
+
+</beans>

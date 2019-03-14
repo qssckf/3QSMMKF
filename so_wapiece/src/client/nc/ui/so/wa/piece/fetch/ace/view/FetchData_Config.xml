@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="gbk"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="context" class="nc.vo.uif2.LoginContext"></bean>
+
+	<bean id="templateContainer" class="nc.ui.uif2.editor.TemplateContainer" init-method="load">
+		<property name="context" ref="context" />
+		<property name="nodeKeies">
+			<list>
+				<value></value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="manageAppModel" class="nc.ui.pubapp.uif2app.model.BillManageModel">
+		<property name="context" ref="context" />
+	</bean>
+	
+	<bean id="container" class="nc.ui.uif2.TangramContainer" init-method="initUI">
+		<property name="tangramLayoutRoot">
+			<bean class="nc.ui.uif2.tangramlayout.node.CNode">
+				<property name="component" ref="mainPanel" />
+			</bean>
+		</property>
+		<property name="actions">
+			<list>
+				<ref bean="fetchDataAction" />
+				<ref bean="refreshAction" />
+				<ref bean="separatorAction" />
+				<ref bean="displaydetailAciton" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="mainPanel" class="nc.ui.hncf.businessfetchdata.view.BusFetchDataMainPanel" init-method="initUI">
+		<property name="model" ref="manageAppModel" />
+		<property name="billListView" ref="listView" />
+		<property name="fetchDataAction" ref="fetchDataAction" />
+		<property name="displaydetailAciton" ref="displaydetailAciton" />
+	</bean>
+	
+	<bean id="listView" class="nc.ui.pubapp.uif2app.view.ShowUpableBillListView" init-method="initUI">
+		<property name="model" ref="manageAppModel" />
+		<!--<property name="multiSelectionEnable" value="false" />-->
+		<property name="multiSelectionMode" value="1" />
+		<property name="templateContainer" ref="templateContainer" />
+		<property name="nodekey" value="" />
+	</bean>
+	
+	<bean id="separatorAction" class="nc.funcnode.ui.action.SeparatorAction" />
+	
+	<bean id="refreshAction" class="nc.ui.so.wa.piece.fetch.action.RefeshAction">
+		<property name="code" value="refresh"></property>
+		<property name="listFetchDataMainPnl" ref="mainPanel"></property>
+	</bean>
+	
+	<bean id="fetchDataAction" class="nc.ui.so.wa.piece.fetch.action.FetchDataAction">
+		<property name="DataMainPnl" ref="mainPanel" />
+		<property name="code" value="FetchData"></property>
+	</bean>
+	
+	
+</beans>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="gbk"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="funcregister" class="nc.pubapp.pade.funcmodel.vo.FuncRegister"><property name="bmf_path" value="so_wapiece\METADATA\PieceFetchInfoVO.bmf"/>
+<property name="cfunid" value="0001ZZ1000000045GLE1"/>
+<property name="class_name" value="nc.ui.pubapp.uif2app.ToftPanelAdaptorEx"/>
+<property name="dr" value="0"/>
+<property name="fun_name" value="取数规则定义"/>
+<property name="fun_property" value="0"/>
+<property name="funcRegisterButtonList">
+<list></list>
+</property>
+<property name="funcRegisterParamList">
+<list><bean class="nc.pubapp.pade.funcmodel.vo.FuncRegisterParam"><property name="dr" value="0"/>
+<property name="paramname" value="BeanConfigFilePath"/>
+<property name="paramvalue" value="nc/ui/so/wa/piece/fetch/ace/view/PieceFetchInfoVO_config.xml"/>
+<property name="parentid" value="0001ZZ1000000045GLE1"/>
+<property name="pk_param" value="0001ZZ1000000045GLE2"/>
+<property name="ts" value="2018-10-29 16:23:00"/>
+</bean>
+</list>
+</property>
+<property name="funcode" value="4006210104"/>
+<property name="funnode_path" value="so_wapiece\ace\client\4006210104.fnf"/>
+<property name="funtype" value="0"/>
+<property name="isbuttonpower" value="false"/>
+<property name="isenable" value="true"/>
+<property name="isfunctype" value="false"/>
+<property name="menuModelFilePath" value="so_wapiece/funcmodel/PieceFetchInfoVO/menuitemregis/40210203.menu"/>
+<property name="metaDataID" value="1fbd6702-ce29-4589-bf6c-f4991c5b4c3e"/>
+<property name="moduleName" value="so"/>
+<property name="orgtypecode" value="SALEORGTYPE000000000"/>
+<property name="own_module" value="4006"/>
+<property name="parent_id" value="1001ZZ100000007DMBTV"/>
+<property name="pk_group" value="~"/>
+<property name="ts" value="2018-10-29 16:22:59"/>
+<property name="uif2model_path" value="so_wapiece\ace\uif2model\4006210104.umf"/>
+</bean>
+
+</beans>

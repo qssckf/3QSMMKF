@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="gbk"?>
+<component conRouterType="手动" createIndustry="0" createTime="2011-11-11 15:44:21" creator="" description="" displayName="PieceFetchInfoVO" fromSourceBmf="true" gencodestyle="NC传统样式" help="" id="a9453c84-b873-4f86-a4a2-9053a3754af7" industry="0" industryChanged="false" industryIncrease="false" industryName="基础行业" isSource="false" isbizmodel="true" mainEntity="" modifier="" modifyIndustry="0" modifyTime="2012-06-26 20:43:55" name="PieceFetchInfoVO" namespace="so" ownModule="so" preLoad="false" resModuleName="PieceFetchInfoVO" resid="" version="54" versionType="0">
+    <celllist>
+        <opinterface componentID="a9453c84-b873-4f86-a4a2-9053a3754af7" createIndustry="0" createTime="2011-11-11 15:44:24" creator="" description="" displayName="操作接口" fullClassName="nc.itf.so.wa.piece.fetch.IPieceFetchInfoVOMaintain" height="155" help="" id="ae81b5f5-fa3c-4034-8f2d-467f44c30c94" implClsName="nc.impl.so.wa.piece.fetch.PieceFetchInfoVOMaintainImpl" industryChanged="false" isAuthorization="true" isBusiActivity="false" isBusiOperation="false" isSource="false" modifier="" modifyIndustry="0" modifyTime="2012-06-26 20:43:55" name="OpInterface" remote="true" resid="" singleton="true" transprop="NONE" version="" versionType="0" visibility="public" width="136" x="68" y="52">
+            <operationlist>
+                <operation dataType="1fbd6702-ce29-4589-bf6c-f4991c5b4c3e" dataTypeStyle="ARRAY" dbtype="" defclassname="" displayName="queryByQueryScheme" forBusinessEntity="N" help="" id="e8ff9759-9a7a-466e-af7a-a5f90ba925eb" isAggVOReturn="false" isBusiActivity="false" methodException="nc.vo.pub.BusinessException" name="queryByQueryScheme" opItfID="ae81b5f5-fa3c-4034-8f2d-467f44c30c94" ownerElementID="ae81b5f5-fa3c-4034-8f2d-467f44c30c94" transKind="REQUIRED" typeDisplayName="计件取数规则定义" typeName="PieceFetchInfoVO" versionType="0" visibility="public">
+                    <paramlist>
+                        <parameter dataType="BS000010000100001056" dataTypeStyle="SINGLE" dbtype="varchar" description="" displayName="queryScheme" isAggVO="false" name="queryScheme" operationID="e8ff9759-9a7a-466e-af7a-a5f90ba925eb" paramTypeForLog="7" paramdefclassname="nc.ui.querytemplate.querytree.IQueryScheme" sequence="0" typeDisplayName="自定义项" typeName="CUSTOM" versionType="0"/>
+                    </paramlist>
+                </operation>
+            </operationlist>
+            <opImpllist>
+                <opItfImpl createTime="2011-11-19 11:27:58" creator="" description="" displayName="实现类" fullClassName="nc.impl.so.wa.piece.fetch.PieceFetchInfoVOMaintainImpl" id="71a716eb-de26-49c1-9575-5e1c13732854" name="Maintain" ownerElementID="ae81b5f5-fa3c-4034-8f2d-467f44c30c94" tag="" type="" versionType="0"/>
+            </opImpllist>
+        </opinterface>
+    </celllist>
+    <connectlist/>
+    <refdepends/>
+    <refdependLoseIDs/>
+    <cellRemoveLog/>
+    <rulers>
+        <ruler isHorizontal="true" unit="0">
+            <guideList/>
+        </ruler>
+        <ruler isHorizontal="false" unit="0">
+            <guideList/>
+        </ruler>
+    </rulers>
+</component>

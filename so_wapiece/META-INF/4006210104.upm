@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="gbk"?>
+<module name="so">
+	<public>
+		    <!-- 接口 -->
+		<component priority="0" singleton="true" remote="true" tx="CMT" supportAlias="true">
+	      <interface>nc.itf.so.wa.piece.fetch.IPieceFetchInfoVOMaintain</interface>
+	      <implementation>nc.impl.so.wa.piece.fetch.PieceFetchInfoVOMaintainImpl</implementation>
+	    </component>
+	    <component priority="0" singleton="true" remote="true" tx="CMT" supportAlias="true">
+	      <interface>nc.itf.so.wa.piece.fetch.IBillTempletService</interface>
+	      <implementation>nc.impl.so.wa.piece.fetch.BillTempletServiceImpl</implementation>
+	    </component>
+	    
+	</public>
+</module>

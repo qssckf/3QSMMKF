@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="refInfo" class="nc.ui.pubapp.billref.src.RefInfo">
+		<property name="userdefitemListPreparator" ref="userdefitemListPreparator" />
+		<property name="singleUserdefitemListPreparator" ref="singleUserdefitemListPreparator" />
+		<property name="headVO">
+			<bean class="nc.vo.so.qs.sc.ShipmentsVO">
+			</bean>
+		</property>
+		<property name="bodyVO">
+			<bean class="nc.vo.so.qs.sc.ShipmentsBVO">
+			</bean>
+		</property>
+		<property name="billVO">
+			<bean class="nc.vo.so.qs.sc.AggShipmentsVO">
+			</bean>
+		</property>
+		<property name="viewVO">
+  			<bean class="nc.vo.so.qs.sc.ShipmentsViewVO">
+  		    </bean>
+ 		</property>
+ 		<property name="billNodeKey" value ="FQto30"></property>
+		<property name="billViewNodeKey" value ="FQto30view"></property>
+		<property name="sourcevoPkName" value ="csrcid"></property>
+		<property name="sourcevoBillNOName" value ="vsrccode"></property>
+		<property name="queryService">		
+			<bean class="nc.ui.so.fq01.billref.m30.model.FQOrderQueryServiceFor30">
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="singleUserdefitemListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+		<property name="billListDataPrepares">
+			<list>
+				<ref bean="singleListPreparator" />
+				<ref bean="marAsstPreparator" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="singleListPreparator" class="nc.ui.uif2.editor.UserdefitemContainerListPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.ShipmentsVO" />
+					<property name="pos" value="0" />
+					<property name="prefix" value="def" />
+				</bean>	
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.ShipmentsBVO" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="def" />
+					<property name="tabcode" value="ShipmentsBVO" />
+				</bean>	
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userdefitemListPreparator" class="nc.ui.pubapp.uif2app.view.CompositeBillListDataPrepare">
+		<property name="billListDataPrepares">
+			<list>
+				<ref bean="listPreparator" />
+				<ref bean="marAsstPreparator" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="listPreparator" class="nc.ui.uif2.editor.UserdefitemContainerListPreparator">
+		<property name="container" ref="userdefitemContainer" />
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.ShipmentsVO" />
+					<property name="pos" value="0" />
+					<property name="prefix" value="def" />
+				</bean>	
+				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
+					<property name="mdfullname" value="so.ShipmentsBVO" />
+					<property name="pos" value="1" />
+					<property name="prefix" value="def" />
+					<property name="tabcode" value="ShipmentsBVO" />
+				</bean>	
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="marAsstPreparator" class="nc.ui.pubapp.billref.push.MarAsstBillRefPushPreparator">
+		<property name="container" ref="userdefitemContainer" /> 
+		<property name="prefix" value="vfree" /> 
+	</bean>
+	
+	<bean id="userdefitemContainer" class="nc.ui.pubapp.billref.src.editor.BillRefUserDefItemContainer">
+		<property name="params">
+			<list>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam"> 
+					<property name="mdfullname" value="so.ShipmentsVO" />
+				</bean>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam"> 
+					<property name="mdfullname" value="so.ShipmentsBVO" />
+				</bean>
+				<bean class="nc.ui.uif2.userdefitem.QueryParam">
+					<property name="rulecode" value="materialassistant" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

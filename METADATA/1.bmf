@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><component conRouterType="手动" createIndustry="0" createTime="2018-08-23 18:16:49" creator="" description="" displayName="1" fromSourceBmf="true" gencodestyle="NC传统样式" help="" id="150d4c52-3799-46f3-8842-f5a881e5ddc1" industry="0" industryChanged="false" industryIncrease="false" industryName="" isSource="false" isbizmodel="false" mainEntity="" metaType=".bmf" modifier="YONYOU NC" modifyIndustry="0" modifyTime="2018-08-23 18:16:49" name="1" namespace="so" ownModule="so" preLoad="false" programcode="0" resModuleName="1" resid="" version="0" versionType="0">
+    <celllist/>
+    <connectlist/>
+    <refdepends/>
+    <refdependLoseIDs/>
+    <cellRemoveLog/>
+    <rulers>
+        <ruler isHorizontal="true" unit="0">
+            <guideList/>
+        </ruler>
+        <ruler isHorizontal="false" unit="0">
+            <guideList/>
+        </ruler>
+    </rulers>
+</component>

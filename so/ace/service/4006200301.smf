@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="gbk"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="general" class="nc.pubapp.pade.code.service.Service">
+	    <property name="billType" value="FQ01"/>
+	    <property name="servBsPackName" value="nc.bs.so.shipmentsinfo"/>
+	    <property name="servImplPackName" value="nc.impl.so.shipmentsinfo"/>
+	    <property name="metaData" value="so\METADATA\ShipmentsInfo.bmf"/>
+	    <property name="approveChecked" value="true"/>
+	    <property name="metaDataType" value="multiType" />
+	    <property name="compName" value="so" />
+	    <property name="billtypepath" value="so/platform/ShipmentsInfo/FQ01/FQ01.btc" />
+	    <property name="billactpath" value="so/platform/ShipmentsInfo/FQ01/FQ01.baf" />
+	    <property name="billbusipath" value="${billbusipath}" />
+	    <property name="billcoderulepath" value="so/coderule/ShipmentsInfo/FQ01/FQ01.crf" />
+	    <property name="ncbrpath" value="so/coderule/ShipmentsInfo/FQ01/FQ01.bcf" />
+	    <property name="scriptChecked" value="true"/>
+	    <property name="pageChecked" value="true"/>
+	    <property name="iduChecked" value="true"/>
+	    <property name="itfFullClassName" value="nc.itf.so.IShipmentsInfoMaintain"/>
+	    <property name="implFullClassName" value="nc.impl.so.ShipmentsInfoMaintainImpl"/>
+	    <property name="itfPackageName" value="nc.itf.so"/>
+	    <property name="itfClassName" value="IShipmentsInfoMaintain"/>
+	    <property name="isbodyAddLine" value="true"/>
+	    <property name="isbodyInsertLine" value="true"/>
+	    <property name="isbodyDelLine" value="true"/>
+	    <property name="isbodyCopyLine" value="true"/>
+	    <property name="isbodyPasteLie" value="true"/>
+	</bean>
+
+	<bean id="implClassPara" class="nc.pubapp.pade.code.service.ImplClassPara">
+	</bean>
+
+	<bean id="SerPropara" class="nc.pubapp.pade.code.funnode.ServiceProxyPara">
+				<property name="delete">
+			<bean class="nc.pubapp.pade.code.funnode.ServiceProxyItemPara">
+			<property name="fullClassName" value="nc.itf.so.IShipmentsInfoMaintain" />
+			<property name="itmClassName" value=".IShipmentsInfoMaintain" />
+			<property name="methodName" value="delete" />
+			<property name="implFullClassName" value="nc.impl.so.ShipmentsInfoMaintainImpl" />
+			</bean>
+		</property>
+						<property name="insert">
+			<bean class="nc.pubapp.pade.code.funnode.ServiceProxyItemPara">
+				<property name="fullClassName" value="nc.itf.so.IShipmentsInfoMaintain" />
+				<property name="itmClassName" value=".IShipmentsInfoMaintain" />
+				<property name="methodName" value="insert" />
+				<property name="implFullClassName" value="nc.impl.so.ShipmentsInfoMaintainImpl" />
+			</bean>
+		</property>
+						<property name="update">
+			<bean class="nc.pubapp.pade.code.funnode.ServiceProxyItemPara">
+				<property name="fullClassName" value="nc.itf.so.IShipmentsInfoMaintain" />
+				<property name="itmClassName" value=".IShipmentsInfoMaintain" />
+				<property name="methodName" value="update" />
+				<property name="implFullClassName" value="nc.impl.so.ShipmentsInfoMaintainImpl" />
+			</bean>
+		</property>
+						<property name="save">
+			<bean class="nc.pubapp.pade.code.funnode.ServiceProxyItemPara">
+				<property name="fullClassName" value="nc.itf.so.IShipmentsInfoMaintain" />
+				<property name="itmClassName" value=".IShipmentsInfoMaintain" />
+				<property name="methodName" value="save" />
+				<property name="implFullClassName" value="nc.impl.so.ShipmentsInfoMaintainImpl" />
+			</bean>
+		</property>
+						<property name="unsave">
+			<bean class="nc.pubapp.pade.code.funnode.ServiceProxyItemPara">
+				<property name="fullClassName" value="nc.itf.so.IShipmentsInfoMaintain" />
+				<property name="itmClassName" value=".IShipmentsInfoMaintain" />
+				<property name="methodName" value="unsave" />
+				<property name="implFullClassName" value="nc.impl.so.ShipmentsInfoMaintainImpl" />
+			</bean>
+		</property>
+						<property name="approve">
+			<bean class="nc.pubapp.pade.code.funnode.ServiceProxyItemPara">
+				<property name="fullClassName" value="nc.itf.so.IShipmentsInfoMaintain" />
+				<property name="itmClassName" value=".IShipmentsInfoMaintain" />
+				<property name="methodName" value="approve" />
+				<property name="implFullClassName" value="nc.impl.so.ShipmentsInfoMaintainImpl" />
+			</bean>
+		</property>
+						<property name="unapprove">
+			<bean class="nc.pubapp.pade.code.funnode.ServiceProxyItemPara">
+				<property name="fullClassName" value="nc.itf.so.IShipmentsInfoMaintain" />
+				<property name="itmClassName" value=".IShipmentsInfoMaintain" />
+				<property name="methodName" value="unapprove" />
+				<property name="implFullClassName" value="nc.impl.so.ShipmentsInfoMaintainImpl" />
+			</bean>
+		</property>
+			</bean>
+
+<bean id="Service" class="nc.pubapp.pade.designer.service.model.ServiceDiagram">
+	    <property name="serviceFlowList">
+	        <list>
+		            <bean class="nc.pubapp.pade.designer.service.model.ServiceFlow">
+	                <property name="entry">
+	                    <bean class="nc.pubapp.pade.designer.service.model.EntryElement">
+	                        <property name="className" value="nc.bs.pub.action.N_FQ01_APPROVE"/>
+	                        <property name="billType" value="FQ01"/>
+	                        <property name="beforeRules">
+	                        		    <list>
+	                        		    	    <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                        		    	        <property name="className" value="nc.bs.pubapp.pub.rule.ApproveStatusCheckRule"/>
+	                        		    	        <property name="description" value="单据状态审批校验规则"/>
+	                        		    	        <property name="properties">
+	                        		    	            <list>
+	                        		    	                <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                </bean>
+	                        		    	            </list>
+	                        		    	        </property>
+	                        		    	    </bean>
+	                        		    </list>
+	                        </property>
+	                        <property name="bpList">
+	                            <list>
+	                                <bean class="nc.pubapp.pade.designer.service.model.BPElement">
+	                                    <property name="className" value="nc.bs.so.shipmentsinfo.ace.bp.AceShipmentsInfoApproveBP"/>
+	                                	    <property name="servBsPackName" value="nc.bs.so.shipmentsinfo"/>
+	                                	    <property name="entityName" value="ShipmentsInfo"/>
+	                                </bean>
+	                            </list>
+	                        </property>
+	                    </bean>
+	                </property>
+	            </bean>
+		
+	
+	            <bean class="nc.pubapp.pade.designer.service.model.ServiceFlow">
+	                <property name="entry">
+	                    <bean class="nc.pubapp.pade.designer.service.model.EntryElement">
+	                        <property name="className" value="nc.bs.pub.action.N_FQ01_DELETE"/>
+						                        <property name="billType" value="FQ01"/>
+	                        <property name="bpList">
+	                            <list>
+	                                <bean class="nc.pubapp.pade.designer.service.model.BPElement">
+	                                    <property name="className" value="nc.bs.so.shipmentsinfo.ace.bp.AceShipmentsInfoDeleteBP"/>
+	                                    <property name="servBsPackName" value="nc.bs.so.shipmentsinfo"/>
+	                                	    <property name="entityName" value="ShipmentsInfo"/>
+			                                	    <property name="afterRules">
+	                                	        <list>
+	                                	            <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.ReturnBillCodeRule"/>
+	                        		    	                    <property name="description" value="单据号返回校验规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="cbilltype"/>
+	                        		    	                                <property name="pValue" value="FQ01"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="codeItem"/>
+	                        		    	                                <property name="pValue" value="vbillcode"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="groupItem"/>
+	                        		    	                                <property name="pValue" value="pk_group"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="orgItem"/>
+	                        		    	                                <property name="pValue" value="pk_org"/>
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                                	        </list>
+	                                	    </property>
+	                                	    <property name="beforeRules">
+	                                	        <list>
+	                                	            <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.BillDeleteStatusCheckRule"/>
+	                        		    	                    <property name="description" value="单据删除前状态校验规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                                	        </list>
+	                                	    </property>
+						                                </bean>
+	                            </list>
+	                        </property>
+	                    </bean>
+	                </property>
+	            </bean>
+	            
+	            
+		            <bean class="nc.pubapp.pade.designer.service.model.ServiceFlow">
+	                <property name="entry">
+	                    <bean class="nc.pubapp.pade.designer.service.model.EntryElement">
+	                        <property name="className" value="nc.bs.pub.action.N_FQ01_SAVE"/>
+	                        <property name="billType" value="FQ01"/>
+	                        <property name="beforeRules">
+	                        		    <list>
+	                        		        <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                        		    	        <property name="className" value="nc.bs.pubapp.pub.rule.CommitStatusCheckRule"/>
+	                        		    	        <property name="description" value="单据提交时状态校验规则"/>
+	                        		    	        <property name="properties">
+	                        		    	            <list>
+	                        		    	                <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                </bean>
+	                        		    	            </list>
+	                        		    	        </property>
+	                        		    	    </bean>
+	                        		    </list>
+	                        </property>
+	                        <property name="bpList">
+	                            <list>
+	                                <bean class="nc.pubapp.pade.designer.service.model.BPElement">
+	                                    <property name="className" value="nc.bs.so.shipmentsinfo.ace.bp.AceShipmentsInfoSendApproveBP"/>
+	                                    <property name="servBsPackName" value="nc.bs.so.shipmentsinfo"/>
+	                                	    <property name="entityName" value="ShipmentsInfo"/>
+	                                </bean>
+	                            </list>
+	                        </property>
+	                    </bean>
+	                </property>
+	            </bean>
+	            
+	            
+	            <bean class="nc.pubapp.pade.designer.service.model.ServiceFlow">
+	                <property name="entry">
+	                    <bean class="nc.pubapp.pade.designer.service.model.EntryElement">
+	                        <property name="className" value="nc.bs.pub.action.N_FQ01_UNAPPROVE"/>
+	                        <property name="billType" value="FQ01"/>
+	                        <property name="beforeRules">
+	                        		    <list>
+	                        		        <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                        		    	        <property name="className" value="nc.bs.pubapp.pub.rule.UnapproveStatusCheckRule"/>
+	                        		    	        <property name="description" value="单据弃审状态校验规则"/>
+	                        		    	        <property name="properties">
+	                        		    	            <list>
+	                        		    	                <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                </bean>
+	                        		    	            </list>
+	                        		    	        </property>
+	                        		    	    </bean>
+	                        		    </list>
+	                        </property>
+	                        <property name="bpList">
+	                            <list>
+	                                <bean class="nc.pubapp.pade.designer.service.model.BPElement">
+	                                    <property name="className" value="nc.bs.so.shipmentsinfo.ace.bp.AceShipmentsInfoUnApproveBP"/>
+	                                    <property name="servBsPackName" value="nc.bs.so.shipmentsinfo"/>
+	                                	    <property name="entityName" value="ShipmentsInfo"/>
+	                                </bean>
+	                            </list>
+	                        </property>
+	                    </bean>
+	                </property>
+	            </bean>
+	            
+	            <bean class="nc.pubapp.pade.designer.service.model.ServiceFlow">
+	                <property name="entry">
+	                    <bean class="nc.pubapp.pade.designer.service.model.EntryElement">
+	                        <property name="className" value="nc.bs.pub.action.N_FQ01_UNSAVEBILL"/>
+	                        <property name="billType" value="FQ01"/>
+	                        <property name="beforeRules">
+	                        		    <list>
+	                        		        <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                        		    	        <property name="className" value="nc.bs.pubapp.pub.rule.UncommitStatusCheckRule"/>
+	                        		    	        <property name="description" value="单据收回状态校验规则"/>
+	                        		    	        <property name="properties">
+	                        		    	            <list>
+	                        		    	                <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                </bean>
+	                        		    	            </list>
+	                        		    	        </property>
+	                        		    	    </bean>
+	                        		    </list>
+	                        </property>
+	                        <property name="bpList">
+	                            <list>
+	                                <bean class="nc.pubapp.pade.designer.service.model.BPElement">
+	                                    <property name="className" value="nc.bs.so.shipmentsinfo.ace.bp.AceShipmentsInfoUnSendApproveBP"/>
+	                                    <property name="servBsPackName" value="nc.bs.so.shipmentsinfo"/>
+	                                	    <property name="entityName" value="ShipmentsInfo"/>
+	                                </bean>
+	                            </list>
+	                        </property>
+	                    </bean>
+	                </property>
+	            </bean>
+						
+			            <bean class="nc.pubapp.pade.designer.service.model.ServiceFlow">
+	                <property name="entry">
+	                    <bean class="nc.pubapp.pade.designer.service.model.EntryElement">
+	                        <property name="className" value="nc.bs.pub.action.N_FQ01_SAVEBASE"/>
+		                        <property name="billType" value="FQ01"/>
+	                        <property name="bpList">
+	                            <list>
+	                                <bean class="nc.pubapp.pade.designer.service.model.BPElement">
+	                                    <property name="className" value="nc.bs.so.shipmentsinfo.ace.bp.AceShipmentsInfoInsertBP"/>
+	                                    <property name="servBsPackName" value="nc.bs.so.shipmentsinfo"/>
+	                                	    <property name="entityName" value="ShipmentsInfo"/>
+	                                	    <property name="afterRules">
+	                                	        <list>
+	                                	            <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+		                                	                <property name="className" value="nc.bs.pubapp.pub.rule.BillCodeCheckRule"/>
+					                        		    	                    <property name="description" value="单据号唯一性校验规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="cbilltype"/>
+	                        		    	                                <property name="pValue" value="FQ01"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="codeItem"/>
+	                        		    	                                <property name="pValue" value="vbillcode"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="groupItem"/>
+	                        		    	                                <property name="pValue" value="pk_group"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="orgItem"/>
+	                        		    	                                <property name="pValue" value="pk_org"/>
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                                	        </list>
+	                                	    </property>
+	                                	    <property name="beforeRules">
+	                                	        <list>
+	                                	            <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.FillInsertDataRule"/>
+	                        		    	                    <property name="description" value="单据新增前设置默认值规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                        		    	                <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.CreateBillCodeRule"/>
+	                        		    	                    <property name="description" value="单据号唯一性校验规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="cbilltype"/>
+	                        		    	                                <property name="pValue" value="FQ01"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="codeItem"/>
+	                        		    	                                <property name="pValue" value="vbillcode"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="groupItem"/>
+	                        		    	                                <property name="pValue" value="pk_group"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="orgItem"/>
+	                        		    	                                <property name="pValue" value="pk_org"/>
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                        		    	                <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.FieldLengthCheckRule"/>
+	                        		    	                    <property name="description" value="主子表VO各个字段的长度规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                        		    	                <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.CheckNotNullRule"/>
+	                        		    	                    <property name="description" value="单据是否存在标题规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+		                                	            <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.impl.pubapp.bd.material.assistant.MarAssistantSaveRule"/>
+	                        		    	                    <property name="description" value="物料字段是否为空规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="notNullValidate"/>
+	                        		    	                                <property name="pValue" value="cateralvid"/>                      		    	                            
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+					                                	        </list>
+	                                	    </property>
+	                                </bean>
+	                                
+	                                <bean class="nc.pubapp.pade.designer.service.model.BPElement">
+	                                    <property name="className" value="nc.bs.so.shipmentsinfo.ace.bp.AceShipmentsInfoUpdateBP"/>
+	                                    <property name="servBsPackName" value="nc.bs.so.shipmentsinfo"/>
+	                                	    <property name="entityName" value="ShipmentsInfo"/>
+	                                	    <property name="afterRules">
+	                                	        <list>
+	                                	            <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+		                                	                <property name="className" value="nc.bs.pubapp.pub.rule.BillCodeCheckRule"/>
+					                        		    	                    <property name="description" value="单据号唯一性校验规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="cbilltype"/>
+	                        		    	                                <property name="pValue" value="FQ01"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="codeItem"/>
+	                        		    	                                <property name="pValue" value="vbillcode"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="groupItem"/>
+	                        		    	                                <property name="pValue" value="pk_group"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="orgItem"/>
+	                        		    	                                <property name="pValue" value="pk_org"/>
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                                	        </list>
+	                                	    </property>
+	                                	    <property name="beforeRules">
+	                                	        <list>
+	                        		    	                <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.FillUpdateDataRule"/>
+	                        		    	                    <property name="description" value="设置修改时的审计信息规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                        		    	                <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.UpdateBillCodeRule"/>
+	                        		    	                    <property name="description" value="单据号更新规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="cbilltype"/>
+	                        		    	                                <property name="pValue" value="FQ01"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="codeItem"/>
+	                        		    	                                <property name="pValue" value="vbillcode"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="groupItem"/>
+	                        		    	                                <property name="pValue" value="pk_group"/>
+	                        		    	                            </bean>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="orgItem"/>
+	                        		    	                                <property name="pValue" value="pk_org"/>
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+	                        		    	                <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.bs.pubapp.pub.rule.FieldLengthCheckRule"/>
+	                        		    	                    <property name="description" value="主子表VO各个字段的长度规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+				                                	            <bean class = "nc.pubapp.pade.designer.service.model.RuleElement">
+	                                	                <property name="className" value="nc.impl.pubapp.bd.material.assistant.MarAssistantSaveRule"/>
+	                        		    	                    <property name="description" value="物料字段是否为空规则"/>
+	                        		    	                    <property name="properties">
+	                        		    	                        <list>
+	                        		    	                            <bean class="nc.pubapp.pade.designer.service.model.RuleProperty">
+	                        		    	                                <property name="pName" value="notNullValidate"/>
+	                        		    	                                <property name="pValue" value="cateralvid"/>
+	                        		    	                            </bean>
+	                        		    	                        </list>
+	                        		    	                    </property>
+	                        		    	                </bean>
+		                                	        </list>
+	                                	    </property>
+	                                </bean>
+	                            </list>
+	                        </property>
+	                    </bean>
+	                </property>
+	            </bean>
+	        </list>
+	    </property>
+</bean>
+
+
+<bean id="FilePackNameBean" class="nc.pubapp.pade.code.engine.FilePackNamePara">
+    <property name="filePackNameList">
+        <list>
+		    <value>nc.bs.so.shipmentsinfo.plugin.bpplugin.ShipmentsInfoPluginPoint.java</value>
+    	    <value>nc.impl.pub.ace.AceShipmentsInfoPubServiceImpl.java</value>
+        </list>
+  </property>
+</bean>
+
+</beans>
