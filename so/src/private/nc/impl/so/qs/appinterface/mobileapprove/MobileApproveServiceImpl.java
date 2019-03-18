@@ -1,6 +1,7 @@
 package nc.impl.so.qs.appinterface.mobileapprove;
 
 import java.awt.Container;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -61,6 +62,7 @@ import nc.ui.pub.beans.constenum.DefaultConstEnum;
 import nc.ui.pub.beans.constenum.IConstEnum;
 import nc.ui.pub.bill.BillItem;
 import nc.ui.pubapp.AppUiContext;
+import nc.ui.pubapp.pub.scale.UIScaleUtils;
 import nc.vo.bd.cust.saleinfo.CustsaleVO;
 import nc.vo.bd.material.MaterialConvertVO;
 import nc.vo.bd.meta.IBDObject;
@@ -95,6 +97,8 @@ import nc.vo.pub.para.SysInitVO;
 import nc.vo.pub.pf.AssignableInfo;
 import nc.vo.pub.pf.Pfi18nTools;
 import nc.vo.pub.workflownote.WorkflownoteVO;
+import nc.vo.pubapp.calculator.CalculatorUtil;
+import nc.vo.pubapp.calculator.HslParseUtil;
 import nc.vo.pubapp.pattern.data.IRowSet;
 import nc.vo.pubapp.pattern.exception.ExceptionUtils;
 import nc.vo.pubapp.pattern.model.entity.bill.AbstractBill;
@@ -102,7 +106,9 @@ import nc.vo.pubapp.pattern.model.entity.bill.IBill;
 import nc.vo.pubapp.pattern.model.meta.entity.vo.VOMetaFactory;
 import nc.vo.pubapp.pattern.model.transfer.bill.ClientBillToServer;
 import nc.vo.pubapp.pattern.pub.Constructor;
+import nc.vo.pubapp.pattern.pub.MathTool;
 import nc.vo.pubapp.pattern.pub.PubAppTool;
+import nc.vo.pubapp.scale.ScaleUtils;
 import nc.vo.sm.UserVO;
 import nc.vo.so.m38.entity.PreOrderBVO;
 import nc.vo.so.m38.entity.PreOrderHVO;
@@ -1249,10 +1255,22 @@ public class MobileApproveServiceImpl implements IMobileApproveService {
 		
 	}
 
+	private UFDouble getDiscountRate(PreOrderBVO bvo)
+	{
+		UFDouble value = (UFDouble)bvo.getAttributeValue("nitemdiscountrate");
+		value = CalculatorUtil.div(value, new UFDouble(100.0D));
+
+		UFDouble alldisrate = (UFDouble)bvo.getAttributeValue("ndiscountrate");
+		
+		alldisrate = CalculatorUtil.div(alldisrate, new UFDouble(100.0D));
+		value = CalculatorUtil.multiply(value, alldisrate);
+		return value;
+	}
 
 	@Override
 	public Map<String, Object> PreOrderSave(String pk_group, String userid,JSONObject prejson, String billstatus) throws BusinessException {
 		// TODO 自动生成的方法存根
+		
 		
 		if(InvocationInfoProxy.getInstance().getGroupId()==null){
 				
@@ -1261,13 +1279,161 @@ public class MobileApproveServiceImpl implements IMobileApproveService {
 		}
 		  
 		InvocationInfoProxy.getInstance().setUserId(userid);
-		
+				
 		PreOrderVO pre=ConvertJson2VO(prejson,billstatus);
 		
 		PreOrderBVO[] bvos=(PreOrderBVO[]) pre.getChildren(PreOrderBVO.class);
 		PreOrderHVO hvo=pre.getParentVO();
 		
+		UFDouble totalastnum = UFDouble.ZERO_DBL;
+		
+		UFDouble totalorigmny = UFDouble.ZERO_DBL;
+		
 		for(PreOrderBVO bvo:bvos){
+			
+			//重算单价金额
+			//含税单价
+			String qttaxPriceKey = "nqtorigtaxprice";
+			//含税净价
+			String taxNetPriceKey = "nqtorigtaxnetprc";
+			//单品折扣
+			String discountKey = "nitemdiscountrate";
+			//整单折扣
+			String allDiscountKey = "ndiscountrate";
+			
+			String otherunit = (String)bvo.getAttributeValue("castunitid");
+			UFDouble num = (UFDouble)bvo.getAttributeValue("nnum");
+			String convertRate = (String)bvo.getAttributeValue("vchangerate");
+			
+			UFDouble nastnumvalue = HslParseUtil.hslDivUFDouble(convertRate, num).setScale(2, 4);
+			bvo.setAttributeValue("nastnum", nastnumvalue.setScale(2, 4));
+			
+			String cqtrunit = (String)bvo.getAttributeValue("cqtunitid");
+			String qtconvertRate = (String)bvo.getAttributeValue("vqtunitrate");
+			UFDouble nqtunitnumvalue = HslParseUtil.hslDivUFDouble(qtconvertRate, num).setScale(2, 4);
+			bvo.setAttributeValue("nqtunitnum", nqtunitnumvalue.setScale(2, 0));
+			
+//			bvo.setNqtunitnum(bvo.getNnum());
+//			bvo.setCqtunitid(bvo.getCunitid());
+			
+			UFDouble taxPrice = (UFDouble)bvo.getAttributeValue(qttaxPriceKey);
+			
+			UFDouble zkl = getDiscountRate(bvo);
+			
+			int intZkl = MathTool.compareTo(zkl, UFDouble.ZERO_DBL);
+			UFDouble taxNetPrice = new UFDouble(0);
+			
+			if (intZkl == 0) {
+				taxNetPrice = taxPrice;
+			}
+			else {
+				taxNetPrice = CalculatorUtil.multiply(taxPrice, zkl).setScale(6, 4);
+			}
+			
+
+			//设置含税净价
+			bvo.setAttributeValue("nqtorigtaxnetprc", taxNetPrice);
+			//税率
+			UFDouble taxrate = (UFDouble)bvo.getAttributeValue("ntaxrate");
+			taxrate = CalculatorUtil.div(taxrate, new UFDouble(100));
+			UFDouble d = new UFDouble(1.0D);
+			taxrate = CalculatorUtil.add(d, taxrate);
+			//无税单价
+			UFDouble bprice = new UFDouble(0);
+			bprice = CalculatorUtil.div(taxPrice, taxrate).setScale(6, 4);
+			bvo.setAttributeValue("nqtorigprice", bprice);
+			//无税净价
+			UFDouble netPrice = new UFDouble(0.0D);
+			netPrice = CalculatorUtil.div(taxNetPrice, taxrate).setScale(6, 4);
+			bvo.setAttributeValue("nqtorignetprice", netPrice);
+			
+	
+			
+			if(bvo.getCunitid().equals(bvo.getCqtunitid())){
+				
+			
+				//价税合计
+				String curr = (String)bvo.getAttributeValue("corigcurrencyid");
+				UFDouble norigtaxmny = CalculatorUtil.multiply(taxNetPrice, num).setScale(2, 4);
+				bvo.setAttributeValue("norigtaxmny", norigtaxmny);
+				
+				//无税金额
+				UFDouble norigmny = CalculatorUtil.div(norigtaxmny, taxrate).setScale(2, 4);
+				bvo.setNorigmny(norigmny);
+				
+				//税额
+				UFDouble ntax=norigtaxmny.sub(norigmny).setScale(2, 0);
+				bvo.setNtax(ntax);
+				
+				bvo.setNorigtaxnetprice(bvo.getNorigtaxmny().div(bvo.getNnum()).setScale(6, 4));
+				bvo.setNorigtaxprice(bvo.getNorigtaxmny().div(bvo.getNnum()).setScale(6, 4));
+				bvo.setNorignetprice(bvo.getNorigmny().div(bvo.getNnum()).setScale(6, 4));
+				bvo.setNorigprice(bvo.getNorigmny().div(bvo.getNnum()).setScale(6, 4));
+				
+				//本币
+				bvo.setNtaxmny(norigtaxmny);
+				bvo.setNqttaxnetprice(bvo.getNqtorigtaxnetprc());
+				bvo.setNqttaxprice(bvo.getNqtorigtaxprice());
+				bvo.setNqtnetprice(bvo.getNqtorignetprice());
+				bvo.setNqtprice(bvo.getNqtorigprice());
+				bvo.setNtaxnetprice(bvo.getNorigtaxnetprice());
+				bvo.setNtaxprice(bvo.getNorigtaxprice());
+				bvo.setNnetprice(bvo.getNorignetprice());
+				bvo.setNprice(bvo.getNorigprice());
+				bvo.setNmny(norigmny);
+				bvo.setNcaltaxmny(norigmny);
+				
+				//全局
+				bvo.setNglobaltaxmny(norigtaxmny);
+				bvo.setNglobalmny(norigmny);
+				
+			}else{
+				
+				
+				//价税合计
+				String curr = (String)bvo.getAttributeValue("corigcurrencyid");
+				UFDouble norigtaxmny = CalculatorUtil.multiply(taxNetPrice, nqtunitnumvalue).setScale(2, 4);
+				bvo.setAttributeValue("norigtaxmny", norigtaxmny);
+				
+				//无税金额
+				UFDouble norigmny = CalculatorUtil.div(norigtaxmny, taxrate).setScale(2, 4);
+				bvo.setNorigmny(norigmny);
+				
+				//税额
+				UFDouble ntax=norigtaxmny.sub(norigmny).setScale(2, 4);
+				bvo.setNtax(ntax);
+				
+				bvo.setNorigtaxnetprice(bvo.getNorigtaxmny().div(bvo.getNnum()).setScale(6, 4));
+				bvo.setNorigtaxprice(bvo.getNorigtaxmny().div(bvo.getNnum()).setScale(6, 4));
+				bvo.setNorignetprice(bvo.getNorigmny().div(bvo.getNnum()).setScale(6, 4));
+				bvo.setNorigprice(bvo.getNorigmny().div(bvo.getNnum()).setScale(6, 4));
+				
+				//本币
+				bvo.setNtaxmny(norigtaxmny);
+				bvo.setNqttaxnetprice(bvo.getNqtorigtaxnetprc());
+				bvo.setNqttaxprice(bvo.getNqtorigtaxprice());
+				bvo.setNqtnetprice(bvo.getNqtorignetprice());
+				bvo.setNqtprice(bvo.getNqtorigprice());
+				bvo.setNtaxnetprice(bvo.getNorigtaxnetprice());
+				bvo.setNtaxprice(bvo.getNorigtaxprice());
+				bvo.setNnetprice(bvo.getNorignetprice());
+				bvo.setNprice(bvo.getNorigprice());
+				bvo.setNmny(norigmny);
+				bvo.setNcaltaxmny(norigmny);
+				
+				
+				//全局
+				bvo.setNglobaltaxmny(norigtaxmny);
+				bvo.setNglobalmny(norigmny);
+				
+				
+			}
+			
+			totalastnum = MathTool.add(totalastnum, bvo.getNastnum());
+			totalorigmny = MathTool.add(totalorigmny, bvo.getNorigtaxmny());
+			
+			//重算结束
+			
 			
 			if (bvo.getVbdef13()!=null && (new UFDouble(bvo.getVbdef13()).toDouble())!=0){
 				
@@ -1288,8 +1454,13 @@ public class MobileApproveServiceImpl implements IMobileApproveService {
 				}
 				
 			}
+			
+			
+			
 		}
 		
+		hvo.setNtotalnum(totalastnum);
+		hvo.setNheadsummny(totalorigmny);
 		
 		
 		PFlowContext pfcontext=new PFlowContext();
