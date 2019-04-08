@@ -26,7 +26,7 @@ package nc.ui.so.shipmentsinfo.billui.pub;
 /*     */
 /*  26 */   private static final String[] REVISE_BODY_EDITKEY = { "cmaterialvid", "nnum", "nastnum", "nqtunitnum", "norigtaxmny", "norigmny", "ntax", "norigtaxprice", "norigprice", "norigtaxnetprice", "norignetprice", "nqtorigtaxprice", "nqtorigprice", "nqtorigtaxnetprc", "nqtorignetprice", "dsenddate", "dreceivedate", "creceivecustid", "creceiveaddrid", "creceiveareaid", "creceivesiteid", "csendstockorgvid", "csettleorgvid", "ctrafficorgvid", "carorgvid", "cprofitcentervid", "memo" };
 /*     */
-/*  28 */   private static final String[] REVISE_HEAD_EDITKEY = {  "ndiscountrate", "memo" };
+/*  28 */   private static final String[] REVISE_HEAD_EDITKEY = {  "ndiscountrate", "vmemo" };
 /*     */   
 /*     */   private Map<String, Boolean> hmEditEnable;
 /*     */   

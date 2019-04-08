@@ -1305,13 +1305,13 @@ public class MobileApproveServiceImpl implements IMobileApproveService {
 			UFDouble num = (UFDouble)bvo.getAttributeValue("nnum");
 			String convertRate = (String)bvo.getAttributeValue("vchangerate");
 			
-			UFDouble nastnumvalue = HslParseUtil.hslDivUFDouble(convertRate, num).setScale(2, 4);
-			bvo.setAttributeValue("nastnum", nastnumvalue.setScale(2, 4));
+			UFDouble nastnumvalue = HslParseUtil.hslDivUFDouble(convertRate, num).setScale(3, 4);
+			bvo.setAttributeValue("nastnum", nastnumvalue.setScale(3, 4));
 			
 			String cqtrunit = (String)bvo.getAttributeValue("cqtunitid");
 			String qtconvertRate = (String)bvo.getAttributeValue("vqtunitrate");
-			UFDouble nqtunitnumvalue = HslParseUtil.hslDivUFDouble(qtconvertRate, num).setScale(2, 4);
-			bvo.setAttributeValue("nqtunitnum", nqtunitnumvalue.setScale(2, 0));
+			UFDouble nqtunitnumvalue = HslParseUtil.hslDivUFDouble(qtconvertRate, num).setScale(3, 4);
+			bvo.setAttributeValue("nqtunitnum", nqtunitnumvalue.setScale(3, 4));
 			
 //			bvo.setNqtunitnum(bvo.getNnum());
 //			bvo.setCqtunitid(bvo.getCunitid());

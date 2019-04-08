@@ -484,7 +484,7 @@ public String rowno;
 /**
 *上层单据主键
 */
-public String so_shipmentsb;
+public String pk_shipments;
 /**
 *srcbts（可持续化字段，可以远程传递值，但不能保存到数据库）
 */
@@ -2354,17 +2354,17 @@ this.rowno=rowno;
 *
 * @return 上层单据主键
 */
-public String getSo_shipmentsb () {
-return this.so_shipmentsb;
+public String getPk_shipments () {
+return this.pk_shipments;
  } 
 
 /** 
 * 设置上层单据主键
 *
-* @param so_shipmentsb 上层单据主键
+* @param pk_shipments 上层单据主键
 */
-public void setSo_shipmentsb ( String so_shipmentsb) {
-this.so_shipmentsb=so_shipmentsb;
+public void setPk_shipments ( String pk_shipments) {
+this.pk_shipments=pk_shipments;
  } 
 
 /** 

@@ -130,7 +130,7 @@ package nc.ui.so.shipmentsinfo.billui.view;
 /* 182 */     util.enableItemsFill(SOConstant.FILLENABLEDKEY);
 /*     */     
 /* 184 */     for (int i = 1; i < 21; i++) {
-/* 185 */       BillItem bodyitem = getBillCardPanel().getBodyItem("def" + i);
+/* 185 */       BillItem bodyitem = getBillCardPanel().getBodyItem("vbdef" + i);
 /*     */       
 /* 187 */       bodyitem.setFillEnabled(true);
 /*     */     }

@@ -379,7 +379,7 @@
 				<ref bean="addMenuGroup" />
 				<ref bean="editAction" />
 				<ref bean="deleteAction" />
-				<ref bean="copyAction" />
+				<!--<ref bean="copyAction" />-->
 				<ref bean="separatorAction" />
 				<ref bean="queryAction" />
 				<ref bean="refreshAction" />
@@ -388,11 +388,12 @@
 				<ref bean="auditMenuAction" />
 				<ref bean="separatorAction" />
 				<!-- <ref bean="linkQueryAction" /> -->
+				<ref bean="browLinkGroupAction" />
 				<ref bean="separatorAction" />
 				<ref bean="printMenuAction" />
 				<ref bean="separatorAction" />
-				<ref bean="queryAuditFlowAction" />
-				<ref bean="separatorAction" />
+				<!--<ref bean="queryAuditFlowAction" />-->
+				<!--<ref bean="separatorAction" />-->
 			</list>
 		</property>
 	</bean>
@@ -407,7 +408,7 @@
 				<ref bean="addMenuGroup" />
 				<ref bean="editAction" />
 				<ref bean="deleteAction" />
-				<ref bean="copyAction" />
+				<!--<ref bean="copyAction" />-->
 				<ref bean="separatorAction" />
 				<ref bean="queryAction" />
 				<ref bean="cardRefreshAction" />
@@ -416,11 +417,12 @@
 				<ref bean="auditMenuAction" />
 				<ref bean="separatorAction" />
 				<!--<ref bean="linkQueryAction" /> -->
+				<ref bean="browLinkGroupAction" />
 				<ref bean="separatorAction" />
 				<ref bean="printMenuAction" />
 				<ref bean="separatorAction" />
-				<ref bean="queryAuditFlowAction" />
-				<ref bean="separatorAction" />
+				<!--<ref bean="queryAuditFlowAction" />-->
+				<!--<ref bean="separatorAction" />-->
 			</list>
 		</property>
 
@@ -658,6 +660,7 @@
 	        <list>
 		      	<ref bean="approveAction" />
            		<ref bean="unApproveAction" />
+           		<ref bean="queryAuditFlowAction" />
 	        </list>
         </property>
     </bean>
@@ -701,12 +704,34 @@
 			</list>
 		</property>
 	</bean>
-	     
+	
+		<bean id="browLinkGroupAction" class="nc.funcnode.ui.action.MenuAction">
+		<property name="code" value="browlinkgroup" />
+		<!-- <property name="name" value="联查" /> -->
+		<property name="name">
+			<bean class="nc.ui.uif2.I18nFB">
+				<property name="resDir" value="4006011_0" />
+				<property name="resId" value="04006011-0392" />
+				<property name="defaultValue" value="联查" />
+			</bean>
+		</property>
+		<property name="actions">
+			<list>
+				<ref bean="linkQueryAction" />
+			</list>
+		</property>
+	</bean>     
 	<!-- 联查单据 -->
 	<!--<bean id="linkQueryAction" class="nc.ui.pubapp.uif2app.actions.LinkQueryAction">-->
 		<!--<property name="model" ref="manageAppModel" />-->
 		<!--<property name="billType" value="FQ01" />-->
 	<!--</bean>-->
+		<!-- 单据追溯 -->
+	<bean id="linkQueryAction" class="nc.scmmm.ui.uif2.actions.SCMLinkQueryAction">
+		<property name="model" ref="manageAppModel" />
+		<property name="billType" value="FQ01" />
+		<property name="openMode" value="1" />
+	</bean>
 			<!-- 查看审批流 -->
 	<bean id="queryAuditFlowAction" class="nc.ui.pubapp.uif2app.actions.pflow.PFApproveStatusInfoAction">
 	<property name="billType" value="FQ01" />

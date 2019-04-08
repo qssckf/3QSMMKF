@@ -54,7 +54,7 @@
 				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
 					<property name="mdfullname" value="so.ShipmentsBVO" />
 					<property name="pos" value="1" />
-					<property name="prefix" value="def" />
+					<property name="prefix" value="vbdef" />
 					<property name="tabcode" value="ShipmentsBVO" />
 				</bean>	
 			</list>
@@ -82,7 +82,7 @@
 				<bean class="nc.ui.uif2.editor.UserdefQueryParam">
 					<property name="mdfullname" value="so.ShipmentsBVO" />
 					<property name="pos" value="1" />
-					<property name="prefix" value="def" />
+					<property name="prefix" value="vbdef" />
 					<property name="tabcode" value="ShipmentsBVO" />
 				</bean>	
 			</list>
